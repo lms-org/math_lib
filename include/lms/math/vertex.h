@@ -16,6 +16,7 @@ public:
         }
         return *this;
     }
+
     vertex<_DIM,_T>& operator * (_T mul){
         for(int i = 0; i < _DIM; i++){
             (*this)[i]=(*this)[i]*mul;
@@ -60,6 +61,35 @@ public:
     }
     float angle(const vertex2& v) const{
         return atan2(v.y()-y()),(v.x()-x());
+    }
+
+    vertex2<_T> operator - (const vertex2<_T> &other) {
+        vertex2<_T> result;
+        for(int i = 0; i < 2; i++) {
+            result[i] = (*this)[i] - other[i];
+        }
+        return result;
+    }
+
+    float length() {
+        float sum = 0;
+        sum += (*this)[0] * (*this)[0];
+        sum += (*this)[1] * (*this)[1];
+        return sqrt(sum);
+    }
+
+    vertex2<_T> operator / (_T val) {
+        vertex2<_T> result;
+        result[0] = (*this)[0] / val;
+        result[1] = (*this)[1] / val;
+        return result;
+    }
+
+    vertex2<_T> operator + (const vertex2<_T> &v) {
+        vertex2<_T> result;
+        result[0] = (*this)[0] + v[0];
+        result[1] = (*this)[1] + v[1];
+        return result;
     }
 };
 
