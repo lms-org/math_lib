@@ -6,6 +6,7 @@ set (HEADERS
 	"include/lms/math/interpolation.h"
 	"include/lms/math/lookup_table.h"
 	"include/lms/math/vertex.h"
+	"include/lms/math/polyline.h"
 )
 
 include_directories("include")
