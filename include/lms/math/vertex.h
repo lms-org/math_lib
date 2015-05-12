@@ -16,6 +16,12 @@ public:
         }
         return *this;
     }
+    vertex<_DIM,_T>& operator * (_T mul){
+        for(int i = 0; i < _DIM; i++){
+            (*this)[i]=(*this)[i]*mul;
+        }
+        return *this;
+    }
 
     float distance(const vertex<_DIM,_T> to)const{
         float sum = 0;
@@ -49,6 +55,12 @@ public:
         return (*this)[1];
     }
 
+    float slope(const vertex2& v) const{
+        return (v.y()-y())/(v.x()-x());
+    }
+    float angle(const vertex2& v) const{
+        return atan2(v.y()-y()),(v.x()-x());
+    }
 };
 
 typedef vertex2<int>    vertex2i;
@@ -56,6 +68,8 @@ typedef vertex<3, int>    vertex3i;
 typedef vertex2<float>  vertex2f;
 typedef vertex<3, double> vertex3d;
 typedef vertex<3, float>  vertex3f;
+
+
 
 }
 }
