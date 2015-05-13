@@ -11,13 +11,17 @@ template<typename VERTEX>
 class PolyLine{
     std::vector<VERTEX> m_points;
 public:
-    typedef PolyLine<lms::math::vertex2f> polyLine2f;
-
     const std::vector<VERTEX>& points() const{
         return m_points;
     }
     std::vector<VERTEX>& points(){
         return m_points;
+    }
+
+    void move(VERTEX toAdd){
+        for(int i = 1; i < m_points.size(); i++){
+            points()[i] += toAdd;
+        }
     }
 
     float distance(){
@@ -89,6 +93,8 @@ public:
 
 
 };
+
+typedef PolyLine<lms::math::vertex2f> polyLine2f;
 }
 }
 #endif /* LMS_MATH_POLYLINE_H */

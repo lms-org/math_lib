@@ -80,8 +80,15 @@ public:
         return (*this)[1];
     }
 
-    float slope(const vertex2& v) const{
+    _T slope() const{
+        return y()/x();
+    }
+
+    _T slope(const vertex2& v) const{
         return (v.y()-y())/(v.x()-x());
+    }
+    float angle() const{
+        return atan2(y(),x());
     }
     float angle(const vertex2& v) const{
         return atan2(v.y()-y(),v.x()-x());
@@ -95,7 +102,7 @@ public:
         return result;
     }
 
-    float length() {
+    float length() const{
         float sum = 0;
         sum += (*this)[0] * (*this)[0];
         sum += (*this)[1] * (*this)[1];

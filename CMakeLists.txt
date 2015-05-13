@@ -1,6 +1,7 @@
 set ( SOURCES
     "src/stub.cpp"
     "src/curve.cpp"
+    "src/math.cpp"
 )
 
 set (HEADERS
