@@ -1,5 +1,6 @@
 set ( SOURCES
     "src/lookup_table_test.cpp"
+    "src/curve.cpp"
 )
 
 set (HEADERS

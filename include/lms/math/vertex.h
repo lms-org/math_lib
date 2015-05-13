@@ -24,12 +24,36 @@ public:
         return *this;
     }
 
-    float distance(const vertex<_DIM,_T> to)const{
+    bool operator == (const vertex<_DIM,_T> v){
+        for(int i = 0; i < _DIM; i++){
+            if((*this)[i]!=v[i])
+                return false;
+        }
+        return true;
+    }
+    /**
+     * @brief distance
+     * @param to
+     * @return distance
+     */
+    _T distance(const vertex<_DIM,_T> to)const{
         float sum = 0;
         for(int i = 0; i < _DIM; i++){
             sum += pow((*this)[i]-to[i],2);
         }
         return pow(sum,0.5);
+    }
+    /**
+     * @brief distance2
+     * @param to
+     * @return squared distance
+     */
+    _T distance2(const vertex<_DIM,_T> to)const{
+        float sum = 0;
+        for(int i = 0; i < _DIM; i++){
+            sum += pow((*this)[i]-to[i],2);
+        }
+        return sum;
     }
 };
 
@@ -60,7 +84,7 @@ public:
         return (v.y()-y())/(v.x()-x());
     }
     float angle(const vertex2& v) const{
-        return atan2(v.y()-y()),(v.x()-x());
+        return atan2(v.y()-y(),v.x()-x());
     }
 
     vertex2<_T> operator - (const vertex2<_T> &other) {
