@@ -1,5 +1,5 @@
 set ( SOURCES
-    "src/lookup_table_test.cpp"
+    "src/stub.cpp"
     "src/curve.cpp"
 )
 
@@ -12,9 +12,18 @@ set (HEADERS
 	"include/lms/math/math.h"
 )
 
+set (TESTS
+    "src/test/lookup_table.cpp"
+    "src/test/interpolation.cpp"
+)
+
 include_directories("include")
 
 add_library(math_lib SHARED ${SOURCES} ${HEADERS})
 
-add_executable(lookup_table_test "src/lookup_table_test.cpp")
-target_link_libraries(lookup_table_test PRIVATE math_lib)
+if(USE_GOOGLETEST)
+    message("Compile math_lib testing executable")
+    add_executable(math_lib_test ${TESTS})
+    target_link_libraries(math_lib_test PRIVATE math_lib gtest gtest_main)
+    add_test(MathLib math_lib_test)
+endif()
