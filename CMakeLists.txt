@@ -7,6 +7,8 @@ set (HEADERS
 	"include/lms/math/lookup_table.h"
 	"include/lms/math/vertex.h"
 	"include/lms/math/polyline.h"
+	"include/lms/math/curve.h"
+	"include/lms/math/math.h"
 )
 
 set (TESTS
