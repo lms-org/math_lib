@@ -71,7 +71,20 @@ public:
                 i++;
             }
         }
-
+    }
+    /**
+     * @brief reduce used to reduce unnecessary points. The list should be sorted before!
+     * @param distanceF returning true will remove the second VERTEX
+     */
+    void reduce(std::function<bool(const VERTEX&,const VERTEX&,const VERTEX&)> distanceF){
+        for(int i = 0; i < ((int)points().size()) -2;){
+            //quite dirty, wouldn't work if the vertex doesn't have a distance method...
+            if(distanceF(points()[i],points()[i+1],points()[i+2])){
+                points().erase(points().begin() + i+1);
+            }else{
+                i++;
+            }
+        }
     }
 
 
