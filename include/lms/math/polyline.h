@@ -84,7 +84,7 @@ public:
         for(int i = 0; i < ((int)points().size()) -2;){
             //quite dirty, wouldn't work if the vertex doesn't have a distance method...
             if(distanceF(points()[i])){
-                points().erase(points().begin() + i+1);
+                points().erase(points().begin() + i);
             }else{
                 i++;
             }
