@@ -19,7 +19,7 @@ public:
     }
 
     void move(VERTEX toAdd){
-        for(int i = 1; i < m_points.size(); i++){
+        for(int i = 0; i < m_points.size(); i++){
             points()[i] += toAdd;
         }
     }
@@ -70,6 +70,20 @@ public:
         for(int i = 0; i < ((int)points().size()) -1;){
             //quite dirty, wouldn't work if the vertex doesn't have a distance method...
             if(distanceF(points()[i],points()[i+1])){
+                points().erase(points().begin() + i+1);
+            }else{
+                i++;
+            }
+        }
+    }
+    /**
+     * @brief reduce used to reduce unnecessary points.
+     * @param distanceF returning true will remove the VERTEX
+     */
+    void reduce(std::function<bool(const VERTEX&)> distanceF){
+        for(int i = 0; i < ((int)points().size()) -2;){
+            //quite dirty, wouldn't work if the vertex doesn't have a distance method...
+            if(distanceF(points()[i])){
                 points().erase(points().begin() + i+1);
             }else{
                 i++;
