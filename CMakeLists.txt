@@ -16,6 +16,7 @@ set (HEADERS
 set (TESTS
     "src/test/lookup_table.cpp"
     "src/test/interpolation.cpp"
+    "src/test/convert.cpp"
 )
 
 include_directories("include")
