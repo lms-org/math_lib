@@ -1,4 +1,6 @@
 #include "lms/math/curve.h"
+#include <cstdlib>
+
 namespace lms {
 namespace math {
 
