@@ -1,7 +1,5 @@
 #include "gtest/gtest.h"
 #include "lms/math/convert.h"
-#include <type_traits>
-#include <typeinfo>
 
 TEST(Convert, deg2rad) {
     using lms::math::Convert;
