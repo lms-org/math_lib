@@ -90,11 +90,12 @@ public:
     float angle() const{
         return atan2(y(),x());
     }
-    float angle(const vertex2& v) const{
-        return atan2(v.y()-y(),v.x()-x());
+    float angle(const vertex2& top) const{
+        //TODO Bullshit, we should go for eigen
+        return atan2(top.y()-y(),top.x()-x());
     }
 
-    vertex2<_T> operator - (const vertex2<_T> &other) {
+    vertex2<_T> operator - (const vertex2<_T> &other) const{
         vertex2<_T> result;
         for(int i = 0; i < 2; i++) {
             result[i] = (*this)[i] - other[i];
