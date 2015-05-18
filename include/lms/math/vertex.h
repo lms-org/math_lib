@@ -90,8 +90,8 @@ public:
     float angle() const{
         return atan2(y(),x());
     }
+
     float angle(const vertex2& top) const{
-        //TODO Bullshit, we should go for eigen
         return atan2(top.y()-y(),top.x()-x());
     }
 
