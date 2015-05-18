@@ -4,93 +4,95 @@
 /**
  * Simple vertex implementation.
  */
-namespace lms{
-namespace math{
+namespace lms {
+namespace math {
 
-template <int _DIM, typename _T>
-class vertex : public std::array<_T, _DIM>  {
+/**
+ * @brief Implementation of a 2-dimensional vector.
+ */
+template <typename T>
+class vertex2 {
 public:
-    vertex<_DIM,_T>& operator += (const vertex<_DIM,_T> &add){
-        for(int i = 0; i < _DIM; i++){
-            (*this)[i]+=add[i];
-        }
-        return *this;
+    T x, y;
+
+    vertex2() : x(0), y(0) {}
+
+    vertex2(const T &x, const T &y) : x(x), y(y) {}
+
+    vertex2(const vertex2<T> &v) =default;
+    vertex2<T>& operator = (const vertex2<T> &v) =default;
+
+    T slope() const {
+        return y / x;
     }
 
-    vertex<_DIM,_T>& operator * (_T mul){
-        for(int i = 0; i < _DIM; i++){
-            (*this)[i]=(*this)[i]*mul;
-        }
-        return *this;
+    T slope(const vertex2<T>& v) const {
+        return (v.y - y)/(v.x - x);
     }
 
-    bool operator == (const vertex<_DIM,_T> v){
-        for(int i = 0; i < _DIM; i++){
-            if((*this)[i]!=v[i])
-                return false;
-        }
-        return true;
+    float angle() const {
+        return atan2(y ,x);
     }
+
+    float angle(const vertex2<T> &v) const {
+        return atan2(v.y - y, v.x - x);
+    }
+
+    T lengthSquared() const {
+        return x * x + y * y;
+    }
+
+    float length() const {
+        return sqrt(lengthSquared());
+    }
+
     /**
      * @brief distance
      * @param to
      * @return distance
      */
-    _T distance(const vertex<_DIM,_T> to)const{
-        float sum = 0;
-        for(int i = 0; i < _DIM; i++){
-            sum += pow((*this)[i]-to[i],2);
-        }
-        return pow(sum,0.5);
+    T distanceSquared(const vertex2<T> &to) const {
+        return (*this - to).lengthSquared();
     }
+
     /**
      * @brief distance2
      * @param to
      * @return squared distance
      */
-    _T distance2(const vertex<_DIM,_T> to)const{
-        float sum = 0;
-        for(int i = 0; i < _DIM; i++){
-            sum += pow((*this)[i]-to[i],2);
-        }
-        return sum;
-    }
-};
-
-template <typename _T>
-class vertex2 : public vertex<2, _T> {
-public:
-    vertex2() {}
-
-    vertex2(_T x, _T y) {
-        (*this)[0] = x;
-        (*this)[1] = y;
-    }
-    const _T& x() const{
-        return (*this)[0];
-    }
-    const _T& y() const{
-        return (*this)[1];
+    float distance(const vertex2<T> &to) const {
+        return (*this - to).length();
     }
 
-    _T& x(){
-        return (*this)[0];
-    }
-    _T& y(){
-        return (*this)[1];
-    }
-
-    _T slope() const{
-        return y()/x();
+    vertex2<T>& operator += (const vertex2<T> &add) {
+        this->x += add.x;
+        this->y += add.y;
+        return *this;
     }
 
-    _T slope(const vertex2& v) const{
-        return (v.y()-y())/(v.x()-x());
-    }
-    float angle() const{
-        return atan2(y(),x());
+    vertex2<T>& operator -= (const vertex2<T> &sub) {
+        this->x -= sub.x;
+        this->y -= sub.y;
+        return *this;
     }
 
+    vertex2<T>& operator *= (const T& mul) {
+        this->x *= mul;
+        this->y *= mul;
+        return *this;
+    }
+
+    vertex2<T>& operator /= (const T& div) {
+        this->x /= div;
+        this->y /= div;
+        return *this;
+    }
+
+    bool operator == (const vertex2<T> &v) const {
+        return x == v.x && y == v.y;
+    }
+
+<<<<<<< HEAD
     float angle(const vertex2& top) const{
         return atan2(top.y()-y(),top.x()-x());
     }
@@ -101,39 +103,34 @@ public:
             result[i] = (*this)[i] - other[i];
         }
         return result;
+=======
+    bool operator != (const vertex2<T> &v) const {
+        return ! (*this == v);
     }
 
-    float length() const{
-        float sum = 0;
-        sum += (*this)[0] * (*this)[0];
-        sum += (*this)[1] * (*this)[1];
-        return sqrt(sum);
+    vertex2<T> operator + (const vertex2<T> &v) const {
+        return vertex2<T>(x + v.x, y + v.y);
+>>>>>>> 105424364118530198fec87b3a26b21a81f64d82
     }
 
-    vertex2<_T> operator / (_T val) {
-        vertex2<_T> result;
-        result[0] = (*this)[0] / val;
-        result[1] = (*this)[1] / val;
-        return result;
+    vertex2<T> operator - (const vertex2<T> &v) const {
+        return vertex2<T>(x - v.x, y - v.y);
     }
 
-    vertex2<_T> operator + (const vertex2<_T> &v) {
-        vertex2<_T> result;
-        result[0] = (*this)[0] + v[0];
-        result[1] = (*this)[1] + v[1];
-        return result;
+    vertex2<T> operator * (const T &mul) const {
+        return vertex2<T>(x * mul, y * mul);
+    }
+
+    vertex2<T> operator / (const T &div) const {
+        return vertex2<T>(x / div, y / div);
     }
 };
 
 typedef vertex2<int>    vertex2i;
-typedef vertex<3, int>    vertex3i;
 typedef vertex2<float>  vertex2f;
-typedef vertex<3, double> vertex3d;
-typedef vertex<3, float>  vertex3f;
+typedef vertex2<double> vertex2d;
 
-
-
-}
-}
+}  // namespace math
+}  // namespace lms
 
 #endif /*LMS_MATH_VERTEX_H*/
