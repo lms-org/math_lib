@@ -92,25 +92,12 @@ public:
         return x == v.x && y == v.y;
     }
 
-<<<<<<< HEAD
-    float angle(const vertex2& top) const{
-        return atan2(top.y()-y(),top.x()-x());
-    }
-
-    vertex2<_T> operator - (const vertex2<_T> &other) const{
-        vertex2<_T> result;
-        for(int i = 0; i < 2; i++) {
-            result[i] = (*this)[i] - other[i];
-        }
-        return result;
-=======
     bool operator != (const vertex2<T> &v) const {
         return ! (*this == v);
     }
 
     vertex2<T> operator + (const vertex2<T> &v) const {
         return vertex2<T>(x + v.x, y + v.y);
->>>>>>> 105424364118530198fec87b3a26b21a81f64d82
     }
 
     vertex2<T> operator - (const vertex2<T> &v) const {
