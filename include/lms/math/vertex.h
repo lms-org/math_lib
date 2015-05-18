@@ -1,9 +1,8 @@
 #ifndef LMS_MATH_VERTEX_H
 #define LMS_MATH_VERTEX_H
 #include <cmath>
-/**
- * Simple vertex implementation.
- */
+#include <iostream>
+
 namespace lms {
 namespace math {
 
@@ -22,6 +21,9 @@ public:
     vertex2(const vertex2<T> &v) =default;
     vertex2<T>& operator = (const vertex2<T> &v) =default;
 
+    template<typename U>
+    explicit vertex2(const vertex2<U> &v) : x(T(v.x)), y(T(v.y)) {}
+
     T slope() const {
         return y / x;
     }
@@ -34,31 +36,34 @@ public:
         return atan2(y ,x);
     }
 
-    float angle(const vertex2<T> &v) const {
-        return atan2(v.y - y, v.x - x);
+    float angleBetween(const vertex2<T> &v) const {
+        return acos((*this * v) / length() / v.length());
     }
 
+    /**
+     * @brief Compute the squared length of the vector.
+     */
     T lengthSquared() const {
-        return x * x + y * y;
+        return (*this) * (*this);
     }
 
+    /**
+     * @brief Compute the length of the vector.
+     */
     float length() const {
         return sqrt(lengthSquared());
     }
 
     /**
-     * @brief distance
-     * @param to
-     * @return distance
+     * @brief Compute the squared distance between this vertex and the
+     * parameter.
      */
     T distanceSquared(const vertex2<T> &to) const {
         return (*this - to).lengthSquared();
     }
 
     /**
-     * @brief distance2
-     * @param to
-     * @return squared distance
+     * @brief Compute the distance between this vertex and the parameter.
      */
     float distance(const vertex2<T> &to) const {
         return (*this - to).length();
@@ -104,14 +109,47 @@ public:
         return vertex2<T>(x - v.x, y - v.y);
     }
 
+    /**
+     * @brief Scale the vector
+     */
     vertex2<T> operator * (const T &mul) const {
         return vertex2<T>(x * mul, y * mul);
     }
 
+    /**
+     * @brief Scale the vector
+     */
     vertex2<T> operator / (const T &div) const {
         return vertex2<T>(x / div, y / div);
     }
+
+    /**
+     * @brief Scalar product
+     */
+    T operator * (const vertex2<T> &v) const {
+        return x * v.x + y * v.y;
+    }
+
+    /**
+     * @brief Normalize the vector to length 1.
+     */
+    vertex2<T> normalize() const {
+        return (*this) / length();
+    }
+
+    /**
+     * @brief Invert x and y components. The returned vector points to
+     * the opposite direction.
+     */
+    vertex2<T> negate() const {
+        return (*this) * (-1);
+    }
 };
+
+template<typename T>
+std::ostream& operator<< (std::ostream& os, const vertex2<T> &v) {
+    return os << v.x << ", " << v.y;
+}
 
 typedef vertex2<int>    vertex2i;
 typedef vertex2<float>  vertex2f;

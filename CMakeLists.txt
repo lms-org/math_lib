@@ -17,6 +17,7 @@ set (TESTS
     "src/test/lookup_table.cpp"
     "src/test/interpolation.cpp"
     "src/test/convert.cpp"
+    "src/test/vertex.cpp"
 )
 
 include_directories("include")
