@@ -51,11 +51,11 @@ public:
         //TODO
     }
 
-    PolyLine<VERTEX> operator += (const PolyLine<VERTEX> toAdd){
+    PolyLine<VERTEX>& operator += (const PolyLine<VERTEX> toAdd){
         for(VERTEX v:toAdd.points()){
             this->points().push_back(v);
         }
-        return this;
+        return *this;
     }
 
     PolyLine<VERTEX> operator -= (const PolyLine<VERTEX> sub){
