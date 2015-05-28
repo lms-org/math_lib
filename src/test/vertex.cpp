@@ -116,4 +116,17 @@ TEST(Vertex2, negate) {
     using lms::math::vertex2f;
 
     EXPECT_EQ(vertex2f(-3, 5), vertex2f(3, -5).negate());
+    EXPECT_EQ(vertex2f(1, 2), - vertex2f(-1, -2));
+}
+
+TEST(Vertex2, rotate) {
+    using lms::math::vertex2i;
+
+    EXPECT_EQ(vertex2i(0, -1), vertex2i(1, 0).rotateClockwise90deg());
+    EXPECT_EQ(vertex2i(1, -1), vertex2i(1, 1).rotateClockwise90deg());
+    EXPECT_EQ(vertex2i(0, 0), vertex2i(0, 0).rotateClockwise90deg());
+
+    EXPECT_EQ(vertex2i(0, 1), vertex2i(1, 0).rotateAntiClockwise90deg());
+    EXPECT_EQ(vertex2i(-1, 1), vertex2i(1, 1).rotateAntiClockwise90deg());
+    EXPECT_EQ(vertex2i(0, 0), vertex2i(0, 0).rotateAntiClockwise90deg());
 }

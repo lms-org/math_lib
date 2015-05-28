@@ -148,6 +148,14 @@ public:
     vertex2<T> operator - () const {
         return negate();
     }
+
+    vertex2<T> rotateClockwise90deg() const {
+        return vertex2<T>(y, -x);
+    }
+
+    vertex2<T> rotateAntiClockwise90deg() const {
+        return vertex2<T>(-y, x);
+    }
 };
 
 template<typename T>
