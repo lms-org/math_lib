@@ -144,6 +144,10 @@ public:
     vertex2<T> negate() const {
         return (*this) * (-1);
     }
+
+    vertex2<T> operator - () const {
+        return negate();
+    }
 };
 
 template<typename T>
