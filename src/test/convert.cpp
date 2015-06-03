@@ -53,6 +53,34 @@ TEST(Convert, rad2deg) {
     ASSERT_DOUBLE_EQ(495., result);
 }
 
+TEST(Convert, in2m) {
+    using lms::math::Convert;
+    
+    double result;
+    
+    // Test conversion
+    result = Convert::in2m(1.0);
+    ASSERT_DOUBLE_EQ(0.0254, result);
+    
+    // Conversion for negative
+    result = Convert::in2m(-2.0);
+    ASSERT_DOUBLE_EQ(-0.0508, result);
+}
+
+TEST(Convert, m2in) {
+    using lms::math::Convert;
+    
+    double result;
+    
+    // Test conversion
+    result = Convert::m2in(0.0254);
+    ASSERT_DOUBLE_EQ(1.0, result);
+    
+    // Conversion for negative
+    result = Convert::m2in(-0.0508);
+    ASSERT_DOUBLE_EQ(-2.0, result);
+}
+
 TEST(Convert, fromPrefix) {
     using lms::math::Convert;
     

@@ -36,6 +36,30 @@ public:
     }
     
     /**
+     * Convert length from inch to meters
+     * 
+     * @param Length in inches
+     * @return Length in meters
+     */
+    template<typename T>
+    inline static T in2m( T length )
+    {
+        return length * T( 0.0254 );
+    }
+    
+    /**
+     * Convert length from meters to inches
+     * 
+     * @param Length in meters
+     * @return Length in inches
+     */
+    template<typename T>
+    inline static T m2in( T length )
+    {
+        return length / T( 0.0254 );
+    }
+    
+    /**
      * Convert number from an SI-prefixed unit to SI base unit
      *
      * Template Arguments:
