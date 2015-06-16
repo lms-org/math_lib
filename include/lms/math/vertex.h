@@ -180,8 +180,6 @@ public:
 
         template<class Archive>
         void load(Archive & archive) {
-            T x, y;
-
             archive (x, y);
         }
     #endif

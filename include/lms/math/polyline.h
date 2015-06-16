@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <functional>
 
+
 #ifdef USE_CEREAL
 #include "lms/serializable.h"
 #include "cereal/cerealizable.h"
 #include "cereal/cereal.hpp"
+#include "cereal/types/vector.hpp"
 #endif
 
 namespace lms{
@@ -129,8 +131,6 @@ public:
 
         template<class Archive>
         void load(Archive & archive) {
-            std::vector<VERTEX> m_points;
-
             archive(m_points);
         }
     #endif
