@@ -3,6 +3,12 @@
 #include <cmath>
 #include <iostream>
 
+#ifdef USE_CEREAL
+#include "lms/serializable.h"
+#include "cereal/cerealizable.h"
+#include "cereal/cereal.hpp"
+#endif
+
 namespace lms {
 namespace math {
 
@@ -10,7 +16,11 @@ namespace math {
  * @brief Implementation of a 2-dimensional vector.
  */
 template <typename T>
-class vertex2 {
+class vertex2
+#ifdef USE_CEREAL
+    : public lms::Serializable
+#endif
+{
 public:
     T x, y;
 
@@ -156,6 +166,25 @@ public:
     vertex2<T> rotateAntiClockwise90deg() const {
         return vertex2<T>(-y, x);
     }
+
+    // cereal implementation
+    #ifdef USE_CEREAL
+        //get default interface for datamanager
+        CEREAL_SERIALIZATION()
+
+        //cereal methods
+        template<class Archive>
+        void save(Archive & archive) const {
+            archive (x, y);
+        }
+
+        template<class Archive>
+        void load(Archive & archive) {
+            T x, y;
+
+            archive (x, y);
+        }
+    #endif
 };
 
 template<typename T>

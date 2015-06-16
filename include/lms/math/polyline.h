@@ -4,11 +4,22 @@
 #include "lms/math/vertex.h"
 #include <algorithm>
 #include <functional>
+
+#ifdef USE_CEREAL
+#include "lms/serializable.h"
+#include "cereal/cerealizable.h"
+#include "cereal/cereal.hpp"
+#endif
+
 namespace lms{
 namespace math{
 
 template<typename VERTEX>
-class PolyLine{
+class PolyLine
+#ifdef USE_CEREAL
+    : public lms::Serializable
+#endif
+{
     std::vector<VERTEX> m_points;
 public:
     const std::vector<VERTEX>& points() const{
@@ -104,6 +115,25 @@ public:
             }
         }
     }
+
+    // cereal implementation
+    #ifdef USE_CEREAL
+        //get default interface for datamanager
+        CEREAL_SERIALIZATION()
+
+        //cereal methods
+        template<class Archive>
+        void save(Archive & archive) const {
+            archive (m_points);
+        }
+
+        template<class Archive>
+        void load(Archive & archive) {
+            std::vector<VERTEX> m_points;
+
+            archive(m_points);
+        }
+    #endif
 
 
 };
