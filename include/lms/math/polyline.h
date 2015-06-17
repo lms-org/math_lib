@@ -123,7 +123,7 @@ public:
     // cereal implementation
     #ifdef USE_CEREAL
         //get default interface for datamanager
-        //CEREAL_SERIALIZATION()
+        CEREAL_SERIALIZATION()
     #endif
 };
 
