@@ -42,7 +42,7 @@ public:
     float distance(){
         float sum = 0;
         for(int i = 1; i < m_points.size(); i++){
-            sum += points[i-1].distance(m_points[i]);
+            sum += m_points[i-1].distance(m_points[i]);
         }
         return sum;
     }
