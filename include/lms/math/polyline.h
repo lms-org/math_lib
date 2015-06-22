@@ -22,6 +22,7 @@ class PolyLine
     : public lms::Serializable
 #endif
 {
+protected:
     std::vector<VERTEX> m_points;
 public:
     ~PolyLine() {}
@@ -39,7 +40,7 @@ public:
         }
     }
 
-    float distance(){
+    float length(){
         float sum = 0;
         for(int i = 1; i < m_points.size(); i++){
             sum += points[i-1].distance(m_points[i]);
@@ -127,7 +128,23 @@ public:
     #endif
 };
 
-typedef PolyLine<lms::math::vertex2f> polyLine2f;
+
+
+class polyLine2f : public PolyLine<lms::math::vertex2f>{
+
+    float distance(const lms::math::vertex2f &v){
+        if(m_points.size() == 0)
+            return NAN;
+        float minDistance = 0;
+        if(m_points.size() == 1){
+            return (m_points[0]-v).length();
+        }
+        for(uint i = 1; i < m_points.size(); i++){
+
+        }
+        return minDistance;
+    }
+};
 }  // namespace math
 }  // namespace lms
 
