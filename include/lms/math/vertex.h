@@ -2,6 +2,7 @@
 #define LMS_MATH_VERTEX_H
 #include <cmath>
 #include <iostream>
+#include "math.h"
 
 #ifdef USE_CEREAL
 #include "lms/serializable.h"
@@ -17,9 +18,9 @@ namespace math {
  */
 template <typename T>
 class vertex2
-#ifdef USE_CEREAL
-    : public lms::Serializable
-#endif
+        #ifdef USE_CEREAL
+        : public lms::Serializable
+        #endif
 {
 public:
     virtual ~vertex2() {}
@@ -167,6 +168,47 @@ public:
 
     vertex2<T> rotateAntiClockwise90deg() const {
         return vertex2<T>(-y, x);
+    }
+
+
+    static float minimum_distance(vertex2<T> v, vertex2<T> w, vertex2<T> p, bool &onTheSegment) {
+        // Return minimum distance between line segment vw and point p
+        const float l2 = v.distanceSquared(w);  // i.e. |w-v|^2 -  avoid a sqrt
+        if (l2 == 0.0) return p.distance(v);   // v == w case
+        // Consider the line extending the segment, parameterized as v + t (w - v).
+        // We find projection of point p onto the line.
+        // It falls where t = [(p-v) . (w-v)] / |w-v|^2
+        const float t = dot(p - v, w - v) / l2;
+        if (t < 0.0) return p.distance(v);       // Beyond the 'v' end of the segment
+        else if (t > 1.0) return p.distance(w);  // Beyond the 'w' end of the segment
+        const vertex2<T> projection = v + t * (w - v);  // Projection falls on the segment
+        onTheSegment = (t >= 0.0) && (t <= 1.0);
+        return p.distance(projection);
+    }
+
+
+    static float minimum_distance(vertex2<T> v, vertex2<T> w, vertex2<T> p) {
+        bool dummy = false;
+        return minimum_distance(v,w,p,&dummy);
+    }
+    /**
+     * @brief side
+     * @param v point on the line
+     * @param w point on the line
+     * @param p the point to check
+     * @return  If the formula is equal to 0, the points are colinear. If the line is horizontal, then this returns true if the point is above the line.
+     * Taken from: http://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line
+     */
+    static T side(vertex2<T> v,vertex2<T> w, vertex2<T> p){
+        return sgn<T>(w.x - v.x)*(p.y - v.y) - (w.y - v.y)*(p.x - v.x);
+    }
+
+    /**
+     * @brief cross the cross-product in 2D
+     * @return
+     */
+    static T cross(vertex2<T> a,vertex2<T> b){
+        return (b.x-a.y)*(a.x-b.y);
     }
 
     // cereal implementation
