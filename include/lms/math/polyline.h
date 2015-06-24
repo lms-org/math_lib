@@ -24,7 +24,7 @@ class PolyLine
 {
     std::vector<VERTEX> m_points;
 public:
-    ~PolyLine() {}
+    virtual ~PolyLine() {}
 
     const std::vector<VERTEX>& points() const{
         return m_points;
@@ -124,20 +124,16 @@ public:
     #ifdef USE_CEREAL
         //get default interface for datamanager
         CEREAL_SERIALIZATION()
+
+        template <class Archive>
+        void serialize( Archive & archive) {
+            archive(m_points);
+        }
     #endif
 };
 
 typedef PolyLine<lms::math::vertex2f> polyLine2f;
 }  // namespace math
 }  // namespace lms
-
-namespace cereal {
-
-template <class Archive, typename T>
-void serialize( Archive & archive, lms::math::PolyLine<T> & p ) {
-    archive(p.points());
-}
-
-}  // namespace cereal
 
 #endif /* LMS_MATH_POLYLINE_H */

@@ -22,6 +22,8 @@ class vertex2
 #endif
 {
 public:
+    virtual ~vertex2() {}
+
     T x, y;
 
     vertex2() : x(0), y(0) {}
@@ -174,12 +176,7 @@ public:
 
         //cereal methods
         template<class Archive>
-        void save(Archive & archive) const {
-            archive (x, y);
-        }
-
-        template<class Archive>
-        void load(Archive & archive) {
+        void serialize(Archive & archive) {
             archive (x, y);
         }
     #endif
