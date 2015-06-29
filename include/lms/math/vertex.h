@@ -41,6 +41,10 @@ public:
         return y / x;
     }
 
+    vertex2<T> rotate(float angle){
+        return vertex2<T>(x * cos(angle) - y * sin(angle),x * sin(angle) + y * cos(angle));
+    }
+
     T slope(const vertex2<T>& v) const {
         return (v.y - y)/(v.x - x);
     }
