@@ -5,12 +5,13 @@ set ( SOURCES
 )
 
 set (HEADERS
-	"include/lms/math/interpolation.h"
-	"include/lms/math/lookup_table.h"
-	"include/lms/math/vertex.h"
-	"include/lms/math/polyline.h"
-	"include/lms/math/curve.h"
-	"include/lms/math/math.h"
+    "include/lms/math/interpolation.h"
+    "include/lms/math/lookup_table.h"
+    "include/lms/math/vertex.h"
+    "include/lms/math/polyline.h"
+    "include/lms/math/curve.h"
+    "include/lms/math/math.h"
+    "include/lms/math/convert.h"
 )
 
 set (TESTS
