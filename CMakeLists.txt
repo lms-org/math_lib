@@ -31,3 +31,6 @@ if(USE_GOOGLETEST)
     target_link_libraries(math_lib_test PRIVATE math_lib gtest gtest_main)
     add_test(MathLib math_lib_test)
 endif()
+
+
+message("ADDED MATH_LIB")
