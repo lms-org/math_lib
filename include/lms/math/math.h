@@ -6,6 +6,18 @@ namespace math {
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
+
+struct Rect{
+    float x;
+    float y;
+    float width;
+    float height;
+    bool contains(float _x, float _y){
+        return x >= _x && _y >= y && _x <= x+width && _y <= y+height;
+    }
+
+};
+
 /**
  * @brief limitAngle_0_2PI set the angle in the range from 0 to 2PI
  */

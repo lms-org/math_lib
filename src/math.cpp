@@ -2,6 +2,7 @@
 #include <cmath>
 namespace lms {
 namespace math {
+
 float limitAngle_0_2PI(float angle){
     while(angle > 2*M_PI){
         angle -= 2*M_PI;
