@@ -6,7 +6,14 @@
 
 namespace lms {
 namespace math {
-
+/**
+ * @brief bresenhamLine
+ * @param x0
+ * @param y0
+ * @param x1
+ * @param y1
+ * @param foundPixel return false if you want to cancle the bresenham
+ */
 void bresenhamLine(int x0, int y0, int x1, int y1,std::function<bool(int,int)> foundPixel);
 void bresenhamLine(int x0, int y0, int x1, int y1, std::vector<int> &vX, std::vector<int> &vY);
 
