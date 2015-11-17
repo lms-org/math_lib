@@ -4,6 +4,7 @@
 #include "lms/math/vertex.h"
 #include <algorithm>
 #include <functional>
+#include "lms/inheritance.h"
 
 
 #ifdef USE_CEREAL
@@ -135,8 +136,18 @@ public:
 
 
 
-class polyLine2f : public PolyLine<lms::math::vertex2f>{
-
+class polyLine2f : public PolyLine<lms::math::vertex2f>, public lms::Inheritance{
+public:
+    virtual bool isSubType(size_t hashcode) const override{
+        (void)hashcode;
+        return false;
+    }
+    virtual ~ polyLine2f(){}
+    /**
+     * @brief distance TODO
+     * @param v
+     * @return
+     */
     float distance(const lms::math::vertex2f &v){
         if(m_points.size() == 0)
             return NAN;
