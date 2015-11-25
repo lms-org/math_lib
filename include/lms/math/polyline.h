@@ -136,7 +136,7 @@ public:
 
 
 
-class polyLine2f : public PolyLine<lms::math::vertex2f>, public lms::Inheritance{
+class polyLine2f : public PolyLine<lms::math::vertex2f>, public virtual lms::Inheritance{
 public:
     virtual bool isSubType(size_t hashcode) const override{
         (void)hashcode;
