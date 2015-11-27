@@ -160,6 +160,58 @@ public:
         }
         return minDistance;
     }
+    /**
+     * @brief getWithDistanceBetweenPoints
+     * @param distance
+     * @return
+     */
+    polyLine2f getWithDistanceBetweenPoints(float distance)const {
+        polyLine2f result;
+        if(m_points.size() == 0){
+            return result;
+        }
+        int currentIndex = 1;
+        result.points().push_back(m_points[0]);//add first point
+        while(true){
+            lms::math::vertex2f lastPoint = result.points()[0];
+            lms::math::vertex2f next = m_points[currentIndex];
+            //find valid next
+            while(lastPoint.distance(next) < distance){
+                currentIndex++;
+                if(currentIndex >= (int)m_points.size()){
+                    break;
+                }
+                next = m_points[currentIndex];
+            }
+            //found valid next
+            //add new point
+            lms::math::vertex2f diff = next-lastPoint;
+            result.points().push_back(lastPoint+diff.normalize()*distance);
+        }
+        return result;
+    }
+    /**
+     * @brief moveOrthogonal
+     * @param distance
+     * @return empty polyLine2f if the transition is not possible
+     */
+    polyLine2f moveOrthogonal(float distance){
+        polyLine2f result;
+        //check if it's possible
+        if(m_points.size() < 2){
+            return result;
+        }
+        lms::math::vertex2f diff;
+        for(int i = 1; i <(int) m_points.size(); i++){
+            lms::math::vertex2f top = m_points[i];
+            lms::math::vertex2f bot = m_points[i-1];
+            lms::math::vertex2f diff = top-bot;
+            diff = diff.rotateAntiClockwise90deg().normalize()*distance;
+            result.points().push_back(bot+diff);
+        }
+        result.points().push_back(m_points[m_points.size()-1]+diff);
+        return result;
+    }
 };
 }  // namespace math
 }  // namespace lms
