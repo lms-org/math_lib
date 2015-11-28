@@ -173,20 +173,27 @@ public:
         int currentIndex = 1;
         result.points().push_back(m_points[0]);//add first point
         while(true){
-            lms::math::vertex2f lastPoint = result.points()[0];
+            lms::math::vertex2f lastPoint = result.points()[result.points().size()-1];
             lms::math::vertex2f next = m_points[currentIndex];
             //find valid next
             while(lastPoint.distance(next) < distance){
                 currentIndex++;
                 if(currentIndex >= (int)m_points.size()){
-                    break;
+                    break; //end first loop
                 }
                 next = m_points[currentIndex];
             }
+            //std::cout<<"numerOfNewPoints: "<<result.points().size()<<" currentIndex "<< currentIndex<<std::endl;
+            //std::cout<<"next point: "<<next.x << " "<<next.y<<std::endl;
+            //std::cout<<"lastPoint point: "<<lastPoint.x << " "<<lastPoint.y<<std::endl;
             //found valid next
             //add new point
             lms::math::vertex2f diff = next-lastPoint;
             result.points().push_back(lastPoint+diff.normalize()*distance);
+            //Not nice but ok
+            if(currentIndex >= (int)m_points.size()){
+                break; //end bigger loop
+            }
         }
         return result;
     }
@@ -206,7 +213,7 @@ public:
             lms::math::vertex2f top = m_points[i];
             lms::math::vertex2f bot = m_points[i-1];
             lms::math::vertex2f diff = top-bot;
-            diff = diff.rotateAntiClockwise90deg().normalize()*distance;
+            diff = diff.rotateClockwise90deg().normalize()*distance;
             result.points().push_back(bot+diff);
         }
         result.points().push_back(m_points[m_points.size()-1]+diff);
