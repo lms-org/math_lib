@@ -143,6 +143,15 @@ public:
         return false;
     }
     virtual ~ polyLine2f(){}
+
+    float length() const{
+        float tmp = 0;
+        for(int i = 1; i < (int)m_points.size(); i++){
+            tmp += m_points[i-1].distance(m_points[i]);
+        }
+        return tmp;
+    }
+
     /**
      * @brief distance TODO
      * @param v
