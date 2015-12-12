@@ -12,6 +12,7 @@
 #include "cereal/cerealizable.h"
 #include "cereal/cereal.hpp"
 #include "cereal/types/vector.hpp"
+#include "cereal/types/base_class.hpp"
 #endif
 
 namespace lms{
@@ -228,6 +229,13 @@ public:
         result.points().push_back(m_points[m_points.size()-1]+diff);
         return result;
     }
+
+#ifdef USE_CEREAL
+    template <class Archive>
+    void serialize( Archive & archive) {
+        archive(cereal::base_class<PolyLine<lms::math::vertex2f>>(this));
+    }
+#endif
 };
 }  // namespace math
 }  // namespace lms
