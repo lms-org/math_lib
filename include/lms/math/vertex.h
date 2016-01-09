@@ -40,6 +40,10 @@ public:
     T slope() const {
         return y / x;
     }
+    template<typename C>
+    explicit operator C(){
+        return C(x,y);
+    }
 
     vertex2<T> rotate(float angle){
         return vertex2<T>(x * cos(angle) - y * sin(angle),x * sin(angle) + y * cos(angle));
