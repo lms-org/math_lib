@@ -212,7 +212,7 @@ public:
      * @param distance
      * @return empty polyLine2f if the transition is not possible
      */
-    polyLine2f moveOrthogonal(float distance){
+    polyLine2f moveOrthogonal(float distance) const{
         polyLine2f result;
         //check if it's possible
         if(m_points.size() < 2){
@@ -222,11 +222,11 @@ public:
         for(int i = 1; i <(int) m_points.size(); i++){
             lms::math::vertex2f top = m_points[i];
             lms::math::vertex2f bot = m_points[i-1];
-            lms::math::vertex2f diff = top-bot;
+            diff = top-bot;
             diff = diff.rotateClockwise90deg().normalize()*distance;
             result.points().push_back(bot+diff);
         }
-        result.points().push_back(m_points[m_points.size()-1]+diff);
+        result.points().push_back(m_points.back()+diff);
         return result;
     }
 
