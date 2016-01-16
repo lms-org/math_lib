@@ -58,7 +58,12 @@ public:
     }
 
     float angleBetween(const vertex2<T> &v) const {
-        return acos((*this * v) / length() / v.length());
+        float value = (*this * v) / length() / v.length();
+        if(value > 1)
+            value = 1;
+        if(value < -1)
+            value = -1;
+        return acos(value);
     }
 
     /**
