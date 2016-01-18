@@ -143,7 +143,7 @@ public:
         (void)hashcode;
         return false;
     }
-    virtual ~ polyLine2f(){}
+    virtual ~polyLine2f(){}
 
     float length() const{
         float tmp = 0;
