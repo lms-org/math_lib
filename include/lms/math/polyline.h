@@ -199,7 +199,9 @@ public:
             //found valid next
             //add new point
             lms::math::vertex2f diff = next-lastPoint;
-            result.points().push_back(lastPoint+diff.normalize()*distance);
+            if(diff.lengthSquared() != 0){
+                result.points().push_back(lastPoint+diff.normalize()*distance);
+            }
             //Not nice but ok
             if(currentIndex >= (int)m_points.size()){
                 break; //end bigger loop

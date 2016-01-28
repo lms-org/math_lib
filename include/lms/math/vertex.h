@@ -57,6 +57,11 @@ public:
         return atan2(y ,x);
     }
 
+    /**
+     * @brief angleBetween
+     * @param v
+     * @return value between 0 and PI?
+     */
     float angleBetween(const vertex2<T> &v) const {
         float value = (*this * v) / length() / v.length();
         if(value > 1)
@@ -64,6 +69,27 @@ public:
         if(value < -1)
             value = -1;
         return acos(value);
+    }
+
+    bool left(const vertex2<T> &v){
+        float orient = x * v.y - y * v.x; //crossproduct
+        return orient >0;
+
+    }
+
+    /**
+      TODO
+     * @brief angleBetweenWithOrientation
+     * @param v
+     * @return value between 0 and 2*PI?
+     */
+    float angleBetweenWithOrientation(const vertex2<T> &v) const {
+        float orient = x * v.y - y * v.x; //crossproduct
+        float angle = angleBetween(v);
+        if(orient < 0){
+           angle = angle + M_PI;
+        }
+        return angle;
     }
 
     /**
