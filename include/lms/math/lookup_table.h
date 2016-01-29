@@ -78,13 +78,47 @@ template<typename T, LookupTableOrder ORDER>
 struct LookupTable{
     std::vector<T> vx;
     std::vector<T> vy;
-    bool linearSearch(T x, T &y){
-        return lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+    T linearSearch(T x){
+        if(toSmall(x))
+            return yMin();
+        if(toBig(x))
+            return yMax();
+        T y= lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+        return y;
     }
-    bool binarySearch(T x, T &y){
-        return lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+    T binarySearch(T x){
+        if(toSmall(x))
+            return yMin();
+        if(toBig(x))
+            return yMax();
+        T y = lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+        return y;
     }
 
+    T yMin(){
+        if(ORDER == LookupTableOrder::ASC){
+            return vy[0];
+        }
+        if(ORDER == LookupTableOrder::DESC){
+            return vy[vy.size() -1];
+        }
+    }
+    T yMax(){
+        if(ORDER == LookupTableOrder::DESC){
+            return vy[0];
+        }
+        if(ORDER == LookupTableOrder::ASC){
+            return vy[vy.size() -1];
+        }
+    }
+
+
+    bool toSmall(float x){
+        return ((ORDER == LookupTableOrder::ASC) && x < vx[0]) ||(ORDER == LookupTableOrder::DESC && x < vx[vx.size() - 1]);
+    }
+    bool toBig(float x){
+        return ((ORDER == LookupTableOrder::ASC) && x > vx[vx.size()-1]) ||(ORDER == LookupTableOrder::DESC && x > vx[0]);
+    }
     //TODO
 };
 
