@@ -74,6 +74,21 @@ bool lookupTableLinearSearch(const std::vector<T> &vx, const std::vector<T> &vy,
     return false;
 }
 
+template<typename T, LookupTableOrder ORDER>
+struct LookupTable{
+    std::vector<T> vx;
+    std::vector<T> vy;
+    bool linearSearch(T x, T &y){
+        return lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+    }
+    bool binarySearch(T x, T &y){
+        return lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+    }
+
+    //TODO
+};
+
+
 }  // namespace math
 }  // namespace lms
 
