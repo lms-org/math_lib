@@ -13,16 +13,17 @@ namespace math {
  * http://en.wikipedia.org/wiki/Linear_interpolation
  */
 template<typename T>
-bool linearInterpolation(T x0, T y0, T x1, T y1, T x, T &y) {
+T linearInterpolation(T x0, T y0, T x1, T y1, T x) {
     const T dx = x1 - x0;
 
     if(dx == 0) {
-        return false;
+        return y0;
     } else {
-        y = y0 + (y1 - y0) * (x - x0) / dx;
-        return true;
+        return y0 + (y1 - y0) * (x - x0) / dx;
     }
 }
+
+
 
 }  // namespace math
 }  // namespace lms

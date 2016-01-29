@@ -20,7 +20,7 @@ TEST(LookupTable, binarySearchFloat) {
 
     result = lookupTableBinarySearch<float, LookupTableOrder::DESC>(vx, vy, 240, y);
     EXPECT_TRUE(result);
-    lms::math::linearInterpolation<float>(270, 150, 209, 200, 240, yExpect);
+    yExpect = lms::math::linearInterpolation<float>(270, 150, 209, 200, 240);
     EXPECT_FLOAT_EQ(yExpect, y);
 
     // out of range

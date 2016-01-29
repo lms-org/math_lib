@@ -40,7 +40,8 @@ bool lookupTableBinarySearch(const std::vector<T> &vx, const std::vector<T> &vy,
         m = (left + right) / 2;
 
         if(right - left == 1) {
-            return linearInterpolation(vx[left], vy[left], vx[right], vy[right], x, y);
+            y = linearInterpolation(vx[left], vy[left], vx[right], vy[right], x);
+            return true; //TODO removed weird check
         } else if(right - left == 0) {
             return false;
         }
