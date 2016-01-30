@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <lms/math/interpolation.h>
+#include <iostream>
+#include <stdexcept>
 
 namespace lms {
 namespace math {
@@ -71,7 +73,7 @@ bool lookupTableLinearSearch(const std::vector<T> &vx, const std::vector<T> &vy,
         }
     }
 
-    return false;
+    return true;//TODO not sure about the return type...
 }
 
 template<typename T, LookupTableOrder ORDER>
@@ -79,11 +81,15 @@ struct LookupTable{
     std::vector<T> vx;
     std::vector<T> vy;
     T linearSearch(T x){
+        if(vx.size() != vy.size() || vx.size() == 0){
+            throw std::runtime_error("lookuptable size invalid: "+std::to_string(vx.size())+ " , "+std::to_string(vy.size()));
+        }
         if(toSmall(x))
             return yMin();
         if(toBig(x))
             return yMax();
-        T y= lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+        T y;
+        lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
         return y;
     }
     T binarySearch(T x){
@@ -91,7 +97,8 @@ struct LookupTable{
             return yMin();
         if(toBig(x))
             return yMax();
-        T y = lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
+        T y;
+        lookupTableLinearSearch<T,ORDER>(vx,vy,x,y);
         return y;
     }
 
