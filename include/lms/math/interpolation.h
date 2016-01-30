@@ -50,6 +50,7 @@ struct LinearWeightInterpolator{
         }else{
             weight += y*(1-(x-xMax)/(x1-xMax));
         }
+        return weight;
     }
 };
 
