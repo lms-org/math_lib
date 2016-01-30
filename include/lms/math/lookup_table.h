@@ -67,7 +67,7 @@ bool lookupTableLinearSearch(const std::vector<T> &vx, const std::vector<T> &vy,
 
     for(int i = 1; i < vx.size(); i++) {
         if(ORDER == LookupTableOrder::ASC ? x <= vx[i] : x >= vx[i]) {
-            return linearInterpolation(vx[i-1], vy[i-1], vx[i], vy[i], x, y);
+            y= linearInterpolation(vx[i-1], vy[i-1], vx[i], vy[i], x);
         }
     }
 
@@ -112,14 +112,12 @@ struct LookupTable{
         }
     }
 
-
     bool toSmall(float x){
         return ((ORDER == LookupTableOrder::ASC) && x < vx[0]) ||(ORDER == LookupTableOrder::DESC && x < vx[vx.size() - 1]);
     }
     bool toBig(float x){
         return ((ORDER == LookupTableOrder::ASC) && x > vx[vx.size()-1]) ||(ORDER == LookupTableOrder::DESC && x > vx[0]);
     }
-    //TODO
 };
 
 
