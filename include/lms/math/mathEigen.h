@@ -36,9 +36,9 @@ float circleCurvature(lms::math::vertex2f p1, lms::math::vertex2f p2, lms::math:
 
     sol = A.colPivHouseholderQr().solve(b);
 
-    T xm = sol(1)/2;
-    T ym = sol(2)/2;
-    T r = sqrt(pow(xm,2) + pow(ym,2) - sol(0));
+    float xm = sol(1)/2;
+    float ym = sol(2)/2;
+    float r = sqrt(pow(xm,2) + pow(ym,2) - sol(0));
 
     if (r == 0)
     {
