@@ -12,6 +12,7 @@ set (HEADERS
     "include/lms/math/curve.h"
     "include/lms/math/math.h"
     "include/lms/math/convert.h"
+    "include/lms/math/mathEigen.h"
 )
 
 set (TESTS
