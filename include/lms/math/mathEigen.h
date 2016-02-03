@@ -15,7 +15,7 @@ using Vector = Matrix<rows, 1>;
 /**
  * @brief important: p1, p2, p3 must have order
  */
-float circleCurvature(lms::math::vertex2f p1, lms::math::vertex2f p2, lms::math::vertex2f p3){
+inline float circleCurvature(lms::math::vertex2f p1, lms::math::vertex2f p2, lms::math::vertex2f p3){
     // look at Arndt Brunner for explanation: http://www.arndt-bruenner.de/mathe/scripts/kreis3p.htm
 
 
