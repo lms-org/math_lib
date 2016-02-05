@@ -171,6 +171,168 @@ public:
         return minDistance;
     }
     /**
+     *TODO
+     * @brief interpolateAtDistance
+     * @param distanceIn
+     * @return
+     */
+    lms::math::vertex2f interpolateAtDistance(float distanceIn) const{
+        lms::math::vertex2f result;
+
+        int nPointsRoad = points().size();
+        float lengthEnvModelSegment = points()[0].distance(points()[1]); //TODO für jedes teilstück festlegen?
+
+        float distanceInClean = distanceIn;
+
+        //check if environment model has needed range
+        float maxDistanceEnvModel =  lengthEnvModelSegment * (nPointsRoad-1);
+        if (distanceInClean >= maxDistanceEnvModel)
+        {
+           // logger.warn("distanceIn is bigger than max distance of environment model");
+            distanceInClean = maxDistanceEnvModel;
+            result = points()[nPointsRoad-1];
+            return result;
+
+        }
+        if (distanceInClean < 0)
+        {
+           // logger.warn("distanceIn smaller 0");
+            distanceInClean = 0;
+        }
+
+        // get the point
+        if (fmod(distanceInClean, lengthEnvModelSegment) == 0)
+        {
+            // by chance got one point
+            int idPoint = round(distanceInClean/lengthEnvModelSegment);
+            result = points()[idPoint];
+    //        logger.warn("perfect hit: i point:  ") << idPoint << ",  distance in: " << distanceInClean;
+            return result;
+        }
+
+        // is between two points
+    //    logger.warn("distanceIn   ") << distanceInClean;
+        int idPointBefore = floor(distanceInClean/lengthEnvModelSegment);
+
+        if ((idPointBefore < 0) || (idPointBefore > nPointsRoad - 2))
+        {
+
+            if (idPointBefore < 0)
+            {
+              //  logger.warn("the id of the point selected is smaller 0");
+                idPointBefore = 0;
+            }
+            if (idPointBefore > nPointsRoad - 2)
+            {
+                //logger.warn("the id of the point selected is to big: ") << idPointBefore;
+                //logger.warn("nPointsRoad: ") << nPointsRoad;
+                idPointBefore = nPointsRoad - 2;
+            }
+        }
+
+        lms::math::vertex2f pointBefore = points()[idPointBefore];
+        lms::math::vertex2f pointAfter = points()[idPointBefore+1]; // not going out of bounds should be automatically detected before
+
+
+        float fractionFirst =1 - (distanceInClean - idPointBefore*lengthEnvModelSegment)/lengthEnvModelSegment;
+
+        if ((fractionFirst < 0))
+        {
+        //    logger.warn("fraction should be bigger 0");
+            fractionFirst = 0;
+        }
+        if ((fractionFirst > 1))
+        {
+        //    logger.warn("fraction should be smaller 1");
+            fractionFirst = 1;
+        }
+
+
+
+        result.x = fractionFirst*pointBefore.x + (1-fractionFirst)*pointAfter.x;
+        result.y = fractionFirst*pointBefore.y + (1-fractionFirst)*pointAfter.y;
+
+        //logger.warn("i: ") << idPointBefore << ",  distance in: " << distanceInClean << ",  fraction first: " << fractionFirst <<",  x: " << result.x <<",  y= " << result.y << ", point before: x:" << pointBefore.x << ", y:" << pointBefore.y <<",  point0:x " << points()[0].x << ", y:" << points()[0].y;
+
+        return result;
+    }
+
+    /**
+     * TODO
+     * @brief interpolateTangentAtDistance
+     * @param distanceIn
+     * @return
+     */
+    lms::math::vertex2f interpolateTangentAtDistance(float distanceIn) const{
+        lms::math::vertex2f result;
+        result.x = 1;
+        result.y = 0;
+
+        int nPointsRoad = points().size();
+        float lengthEnvModelSegment = points()[0].distance(points()[1]); //TODO für jedes teilstück festlegen?
+
+        float distanceInClean = distanceIn;
+
+        //check if environment model has needed range
+        float maxDistanceEnvModel =  lengthEnvModelSegment * (nPointsRoad-1);
+        if (distanceInClean >= maxDistanceEnvModel)
+        {
+          //  logger.warn("distanceIn is bigger than max distance of environment model");
+            distanceInClean = maxDistanceEnvModel;
+            result = points()[nPointsRoad-1] - points()[nPointsRoad-2];
+            return result.normalize();
+
+        }
+        if (distanceInClean < 0)
+        {
+         //   logger.warn("distanceIn smaller 0");
+            distanceInClean = 0;
+        }
+
+        // get the point
+        if (fmod(distanceInClean, lengthEnvModelSegment) == 0)
+        {
+            // by chance got one point
+            int idPoint = round(distanceInClean/lengthEnvModelSegment);
+            result = points()[idPoint+1] - points()[idPoint-1];
+            return result.normalize();
+        }
+
+        int idPointBefore = floor(distanceInClean/lengthEnvModelSegment);
+
+        if ((idPointBefore < 0) || (idPointBefore > nPointsRoad - 2))
+        {
+
+            if (idPointBefore < 0)
+            {
+            //    logger.warn("the id of the point selected is smaller 0");
+                idPointBefore = 0;
+            }
+            if (idPointBefore > nPointsRoad - 2)
+            {
+            //    logger.warn("the id of the point selected is to big: ") << idPointBefore;
+              //  logger.warn("nPointsRoad: ") << nPointsRoad;
+                idPointBefore = nPointsRoad - 2;
+            }
+        }
+
+        lms::math::vertex2f pointBefore = points()[idPointBefore];
+        lms::math::vertex2f pointAfter = points()[idPointBefore+1]; // not going out of bounds should be automatically detected before
+
+        result = pointAfter - pointBefore;
+
+        return result.normalize();
+    }
+    lms::math::vertex2f interpolateNormalAtDistance(float distanceIn) const{
+        lms::math::vertex2f tangent = interpolateTangentAtDistance(distanceIn);
+        lms::math::vertex2f normal;
+        normal.x = - tangent.y;
+        normal.y = tangent.x;
+
+        return normal.normalize();
+    }
+
+    /**
      * @brief getWithDistanceBetweenPoints
      * @param distance
      * @return
