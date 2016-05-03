@@ -80,6 +80,7 @@ public:
         //TODO remote vectors that are the same
         return this;
     }
+
     /**
      * @brief reduce used to reduce unnecessary points. The list should be sorted before!
      * @param distanceF TODO
@@ -154,6 +155,26 @@ public:
     }
 
     /**
+     * @brief startAt
+     * @param distance
+     * @return a polyLine2f starting at the given distance from the first point along the line
+     */
+    polyLine2f startAt(float distance) const{
+        //TODO
+        return *this;
+    }
+
+    /**
+     * @brief stopAt
+     * @param distance
+     * @return a polyLine2f stopping at the given distance from the first point along the line
+     */
+    polyLine2f stopAt(float distance) const{
+        //TODO
+        return *this;
+    }
+
+    /**
      * @brief distance TODO
      * @param v
      * @return
@@ -171,10 +192,10 @@ public:
         return minDistance;
     }
     /**
-     *TODO
+     *
      * @brief interpolateAtDistance
      * @param distanceIn
-     * @return
+     * @return the point with the given distance from the first point along the line
      */
     lms::math::vertex2f interpolateAtDistance(float distanceIn) const{
         lms::math::vertex2f result;
@@ -258,10 +279,10 @@ public:
     }
 
     /**
-     * TODO
+     *
      * @brief interpolateTangentAtDistance
      * @param distanceIn
-     * @return
+     * @return the tangent at the given distance from the first point along the line
      */
     lms::math::vertex2f interpolateTangentAtDistance(float distanceIn) const{
         lms::math::vertex2f result;
@@ -323,6 +344,11 @@ public:
 
         return result.normalize();
     }
+    /**
+     * @brief interpolateNormalAtDistance
+     * @param distanceIn
+     * @return the normal at the given distance from the first point along the line
+     */
     lms::math::vertex2f interpolateNormalAtDistance(float distanceIn) const{
         lms::math::vertex2f tangent = interpolateTangentAtDistance(distanceIn);
         lms::math::vertex2f normal;
