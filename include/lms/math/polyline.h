@@ -160,8 +160,20 @@ public:
      * @return a polyLine2f starting at the given distance from the first point along the line
      */
     polyLine2f startAt(float distance) const{
-        //TODO
-        return *this;
+        polyLine2f result;
+        float currentDistance = 0;
+        for(int i = 1; i <(int) points().size(); i++){
+            currentDistance += points()[i].distance(points()[i-1]);
+            if(currentDistance > distance){
+                //add start point
+                result.points().push_back(interpolateAtDistance(distance));
+                for(int k = i; k < (int)points().size(); k++){
+                    result.points().push_back(points()[k]);
+                }
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -170,8 +182,22 @@ public:
      * @return a polyLine2f stopping at the given distance from the first point along the line
      */
     polyLine2f stopAt(float distance) const{
-        //TODO
-        return *this;
+        polyLine2f result;
+        if(points().size() == 0)
+            return result;
+        float currentDistance = 0;
+        result.points().push_back(points()[0]);
+        for(int i = 1; i <(int) points().size(); i++){
+            currentDistance += points()[i].distance(points()[i-1]);
+            if(currentDistance < distance){
+                result.points().push_back(points()[i]);
+            }else{
+                //add the endpoint
+                result.points().push_back(interpolateAtDistance(distance));
+                break;
+            }
+        }
+        return result;
     }
 
     /**
