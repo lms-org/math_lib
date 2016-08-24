@@ -1,3 +1,8 @@
+cmake_minimum_required(VERSION 2.8.12)
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 set ( SOURCES
     "src/stub.cpp"
     "src/curve.cpp"
@@ -29,14 +34,14 @@ endif()
 
 include_directories("include")
 
-add_library(math_lib SHARED ${SOURCES} ${HEADERS})
+add_library(lms_math SHARED ${SOURCES} ${HEADERS})
 
-if(USE_GOOGLETEST)
+#if(USE_GOOGLETEST)
     message("Compile math_lib testing executable")
     add_executable(math_lib_test ${TESTS})
-    target_link_libraries(math_lib_test PRIVATE math_lib gtest gtest_main)
+    target_link_libraries(math_lib_test PRIVATE lms_math gtest gtest_main)
     add_test(MathLib math_lib_test)
-endif()
+#endif()
 
 
 message("ADDED MATH_LIB")
