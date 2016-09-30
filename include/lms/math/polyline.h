@@ -4,8 +4,8 @@
 #include "lms/math/vertex.h"
 #include <algorithm>
 #include <functional>
-#include "lms/inheritance.h"
-
+#include <lms/inheritance.h>
+#define USE_CEREAL
 
 #ifdef USE_CEREAL
 #include "lms/serializable.h"
@@ -140,8 +140,8 @@ public:
 
 class polyLine2f : public PolyLine<lms::math::vertex2f>, public virtual lms::Inheritance{
 public:
-    virtual bool isSubType(size_t hashcode) const override{
-        (void)hashcode;
+    virtual bool isSubType(std::type_index tIndex) const override{
+        (void)tIndex;
         return false;
     }
     virtual ~polyLine2f(){}

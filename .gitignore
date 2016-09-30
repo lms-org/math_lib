@@ -17,3 +17,5 @@ config/
 .metadata
 *.autosave
 CMakeLists.txt.user
+conanbuildinfo.txt
+*.pyc

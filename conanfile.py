@@ -1,11 +1,12 @@
 from conans import ConanFile, CMake
 
 class MathConan(ConanFile):
-    name = "math"
+    name = "lms_math"
     version = "1.0"
     settings = "os", "compiler", "build_type", "arch"
     exports = "include/*","src/*","README.md","CMakeLists.txt"
-    requires = "gtest/1.7.0@lasote/stable"
+    requires = "gtest/1.8.0@lms/stable","lms/2.0@lms/stable"
+#TODO cereal/1.2-0@lms/stable
     generators = "cmake"
 
     def build(self):
