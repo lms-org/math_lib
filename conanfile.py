@@ -5,8 +5,7 @@ class MathConan(ConanFile):
     version = "1.0"
     settings = "os", "compiler", "build_type", "arch"
     exports = "include/*","src/*","README.md","CMakeLists.txt"
-    requires = "gtest/1.8.0@lms/stable","lms/2.0@lms/stable"
-#TODO cereal/1.2-0@lms/stable
+    requires = "gtest/1.8.0@lms/stable","lms/2.0@lms/stable","cereal/1.2-0@lms/stable","Eigen3/3.2.8@bilke/stable"
     generators = "cmake"
 
     def build(self):

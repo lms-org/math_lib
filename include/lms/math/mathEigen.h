@@ -1,6 +1,5 @@
 #ifndef LMS_MATH_EIGEN_H
 #define LMS_MATH_EIGEN_H
-//TODO check if eigen is available!
 #include <eigen3/Eigen/Dense>
 
 #include "lms/math/vertex.h"

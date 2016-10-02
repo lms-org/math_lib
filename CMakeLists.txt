@@ -32,16 +32,18 @@ if((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") OR (${CMAKE_CXX_COMPILER_ID} STRE
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wreturn-type -Wpedantic ")
 endif()
 
+#todo if
+add_definitions(-DUSE_CEREAL)
+
 include_directories("include")
 
 add_library(lms_math SHARED ${SOURCES} ${HEADERS})
+target_link_libraries(lms_math PRIVATE ${CONAN_LIBS})
 
-#if(USE_GOOGLETEST)
-    message("Compile math_lib testing executable")
-    add_executable(math_lib_test ${TESTS})
-    target_link_libraries(math_lib_test PRIVATE lms_math gtest gtest_main)
-    add_test(MathLib math_lib_test)
-#endif()
+message("Compile math_lib testing executable")
+add_executable(math_lib_test ${TESTS})
+target_link_libraries(math_lib_test PRIVATE lms_math ${CONAN_LIBS})
+add_test(MathLib math_lib_test)
 
 
 message("ADDED MATH_LIB")

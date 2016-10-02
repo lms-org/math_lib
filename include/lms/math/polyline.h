@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <functional>
 #include <lms/inheritance.h>
-#define USE_CEREAL
 
 #ifdef USE_CEREAL
 #include "lms/serializable.h"
