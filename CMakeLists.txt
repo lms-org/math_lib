@@ -32,9 +32,6 @@ if((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") OR (${CMAKE_CXX_COMPILER_ID} STRE
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wreturn-type -Wpedantic ")
 endif()
 
-#todo if
-add_definitions(-DUSE_CEREAL)
-
 include_directories("include")
 
 add_library(lms_math SHARED ${SOURCES} ${HEADERS})
