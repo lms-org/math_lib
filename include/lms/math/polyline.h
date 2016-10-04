@@ -6,22 +6,16 @@
 #include <functional>
 #include <lms/inheritance.h>
 
-#ifdef USE_CEREAL
 #include "lms/serializable.h"
 #include "cereal/cerealizable.h"
 #include "cereal/cereal.hpp"
 #include "cereal/types/vector.hpp"
 #include "cereal/types/base_class.hpp"
-#endif
 
 namespace lms{
 namespace math{
 
-template<typename VERTEX>
-class PolyLine
-#ifdef USE_CEREAL
-    : public lms::Serializable
-#endif
+template<typename VERTEX> class PolyLine: public lms::Serializable
 {
 protected:
     std::vector<VERTEX> m_points;
@@ -124,7 +118,6 @@ public:
     }
 
     // cereal implementation
-    #ifdef USE_CEREAL
         //get default interface for datamanager
         CEREAL_SERIALIZATION()
 
@@ -132,7 +125,6 @@ public:
         void serialize( Archive & archive) {
             archive(m_points);
         }
-    #endif
 };
 
 
@@ -445,12 +437,10 @@ public:
         return result;
     }
 
-#ifdef USE_CEREAL
     template <class Archive>
     void serialize( Archive & archive) {
         archive(cereal::base_class<PolyLine<lms::math::vertex2f>>(this));
     }
-#endif
 };
 }  // namespace math
 }  // namespace lms
