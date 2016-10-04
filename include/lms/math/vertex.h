@@ -4,11 +4,9 @@
 #include <iostream>
 #include "math.h"
 
-#ifdef USE_CEREAL
 #include "lms/serializable.h"
 #include "cereal/cerealizable.h"
 #include "cereal/cereal.hpp"
-#endif
 
 namespace lms {
 namespace math {
@@ -17,10 +15,7 @@ namespace math {
  * @brief Implementation of a 2-dimensional vector.
  */
 template <typename T>
-class vertex2
-        #ifdef USE_CEREAL
-        : public lms::Serializable
-        #endif
+class vertex2: public lms::Serializable
 {
 public:
     virtual ~vertex2() {}
@@ -251,7 +246,6 @@ public:
     }
 
     // cereal implementation
-    #ifdef USE_CEREAL
         //get default interface for datamanager
         CEREAL_SERIALIZATION()
 
@@ -260,7 +254,6 @@ public:
         void serialize(Archive & archive) {
             archive (x, y);
         }
-    #endif
 };
 
 template<typename T>
