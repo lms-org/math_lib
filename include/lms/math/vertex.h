@@ -246,14 +246,14 @@ public:
     }
 
     // cereal implementation
-        //get default interface for datamanager
-        CEREAL_SERIALIZATION()
+    //get default interface for datamanager
+    CEREAL_SERIALIZATION()
 
-        //cereal methods
-        template<class Archive>
-        void serialize(Archive & archive) {
-            archive (x, y);
-        }
+    //cereal methods
+    template<class Archive>
+    void serialize(Archive & archive) {
+        archive (x, y);
+    }
 };
 
 template<typename T>
