@@ -1,7 +1,9 @@
+if(USE_CONAN)
 cmake_minimum_required(VERSION 2.8.12)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+endif(USE_CONAN)
 
 set ( SOURCES
     "src/stub.cpp"
@@ -35,12 +37,15 @@ endif()
 include_directories("include")
 
 add_library(lms_math SHARED ${SOURCES} ${HEADERS})
+
+if(USE_CONAN)
 target_link_libraries(lms_math PRIVATE ${CONAN_LIBS})
 
 message("Compile math_lib testing executable")
 add_executable(math_lib_test ${TESTS})
 target_link_libraries(math_lib_test PRIVATE lms_math ${CONAN_LIBS})
 add_test(MathLib math_lib_test)
+else()
+target_link_libraries(lms_math PRIVATE lmscore)
 
-
-message("ADDED MATH_LIB")
+endif(USE_CONAN)
