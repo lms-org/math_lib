@@ -209,8 +209,15 @@ public:
         return vertex2<T>(-y, x);
     }
 
-
-    static float minimum_distance(vertex2<T> v, vertex2<T> w, vertex2<T> p, bool &onTheSegment) {
+    /**
+     * @brief minimum_distance
+     * @param v first point of the line
+     * @param w second point of the line
+     * @param p
+     * @param onTheSegment between 0 for first point, 1 for second point
+     * @return
+     */
+    static float minimum_distance(vertex2<T> v, vertex2<T> w, vertex2<T> p, float &onTheSegment) {
         // Return minimum distance between line segment vw and point p
         const float l2 = v.distanceSquared(w);  // i.e. |w-v|^2 -  avoid a sqrt
         if (l2 == 0.0) return p.distance(v);   // v == w case
@@ -221,14 +228,14 @@ public:
         if (t < 0.0) return p.distance(v);       // Beyond the 'v' end of the segment
         else if (t > 1.0) return p.distance(w);  // Beyond the 'w' end of the segment
         const vertex2<T> projection = v + t * (w - v);  // Projection falls on the segment
-        onTheSegment = (t >= 0.0) && (t <= 1.0);
+        onTheSegment = t;
         return p.distance(projection);
     }
 
 
     static float minimum_distance(vertex2<T> v, vertex2<T> w, vertex2<T> p) {
-        bool dummy = false;
-        return minimum_distance(v,w,p,&dummy);
+        float dummy;
+        return minimum_distance(v,w,p,dummy);
     }
     /**
      * @brief side
