@@ -47,5 +47,4 @@ target_link_libraries(math_lib_test PRIVATE lms_math ${CONAN_LIBS})
 add_test(MathLib math_lib_test)
 else()
 target_link_libraries(lms_math PRIVATE lmscore)
-
 endif(USE_CONAN)

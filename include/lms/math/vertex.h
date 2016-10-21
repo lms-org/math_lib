@@ -264,6 +264,30 @@ std::ostream& operator<< (std::ostream& os, const vertex2<T> &v) {
 typedef vertex2<int>    vertex2i;
 typedef vertex2<float>  vertex2f;
 typedef vertex2<double> vertex2d;
+/**
+ * @brief distanceLinePoint, calculate distance of M from the line connecting P and Q
+ * lambda = 0, if the orthogonal line from PQ to M goes through P
+ * lambda = 1, if the orthogonal line from PQ to M goes through Q
+ * lambda  [0, ... , 1] inbetween
+ * @param P
+ * @param Q
+ * @param M
+ * @param dst
+ * @param lambda
+ */
+inline void distanceLinePoint(lms::math::vertex2f P, lms::math::vertex2f Q, lms::math::vertex2f M, float *dst, float *lambda){
+    //calculate distance of M from the line connecting P and Q
+    //lambda = 0, if the orthogonal line from PQ to M goes through P
+    //lambda = 1, if the orthogonal line from PQ to M goes through Q
+    //lambda  [0, ... , 1] inbetween
+
+    lms::math::vertex2f V = Q - P;
+
+    *lambda = - (V.x*(P.x-M.x) + V.y*(P.y-M.y))/(V.x*V.x + V.y*V.y);
+    lms::math::vertex2f S = P + V*(*lambda);
+
+    *dst = sqrt((M.x-S.x)*(M.x-S.x) + (M.y-S.y)*(M.y-S.y));
+}
 
 }  // namespace math
 }  // namespace lms
