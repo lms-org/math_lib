@@ -200,22 +200,20 @@ public:
         orth = 0;
         tang = 0;
         //error handling? size == 0?
-        float minDistance = 0;
         if(m_points.size() == 1){
             tang = (m_points[0]-v).length();
         }
         for(uint i = 1; i < m_points.size(); i++){
             float part;
-            vertex2::minimum_distance(m_points[i-1],m_points[i],part);
+            orth = minimum_distance(v,m_points[i-1],m_points[i],part);
             if(part > 1){
                 tang += m_points[i-1].distance(m_points[i]);
-            }else if(part < 0){
-                tang =+ part*m_points[i-1].distance(v);
             }else{
-
+                return;//orth position found
             }
         }
-        return minDistance;
+        //no orth position found
+        //TODO
     }
 
     /**
