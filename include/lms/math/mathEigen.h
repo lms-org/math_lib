@@ -1,6 +1,6 @@
 #ifndef LMS_MATH_EIGEN_H
 #define LMS_MATH_EIGEN_H
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 #include "lms/math/vertex.h"
 namespace lms {
