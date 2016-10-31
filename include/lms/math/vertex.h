@@ -270,6 +270,33 @@ inline float minimum_distance(vertex2f v, vertex2f w, vertex2f p) {
     float dummy;
     return minimum_distance(v,w,p,dummy);
 }
+/**
+ * @brief sign from http://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+ * @param p1
+ * @param p2
+ * @param p3
+ * @return
+ */
+inline float sign (const lms::math::vertex2f &p1,const lms::math::vertex2f &p2,const lms::math::vertex2f &p3){
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
+/**
+ * @brief pointInTriangle from from http://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+ * @param pt
+ * @param v1
+ * @param v2
+ * @param v3
+ * @return
+ */
+inline bool pointInTriangle (const lms::math::vertex2f &pt,const lms::math::vertex2f &v1,const lms::math::vertex2f &v2,const lms::math::vertex2f &v3){
+    bool b1, b2, b3;
+
+    b1 = sign(pt, v1, v2) < 0.0f;
+    b2 = sign(pt, v2, v3) < 0.0f;
+    b3 = sign(pt, v3, v1) < 0.0f;
+
+    return ((b1 == b2) && (b2 == b3));
+}
 
 }  // namespace math
 }  // namespace lms
