@@ -447,7 +447,8 @@ public:
             float diffDistance = diff.length();
             if(diffDistance == 0){
                 //TODO this could be solved nicely
-                LMS_EXCEPTION("Points should not be the same, diffDistance == 0");
+                //TODO LMS_EXCEPTION("Points should not be the same, diffDistance == 0");
+                continue;
             }
             diff = diff.rotateClockwise90deg()*distance/diffDistance;
             result.points().push_back(bot+diff);
