@@ -12,6 +12,9 @@
 #include "cereal/types/vector.hpp"
 #include "cereal/types/base_class.hpp"
 
+//debugging
+#include <lms/logger.h>
+
 namespace lms{
 namespace math{
 
@@ -418,6 +421,8 @@ public:
             lms::math::vertex2f diff = next-lastPoint;
             if(diff.lengthSquared() != 0){
                 result.points().push_back(lastPoint+diff.normalize()*distance);
+            }else{
+                currentIndex++;
             }
             //Not nice but ok
             if(currentIndex >= (int)m_points.size()){
