@@ -12,9 +12,6 @@
 #include "cereal/types/vector.hpp"
 #include "cereal/types/base_class.hpp"
 
-//debugging
-#include <lms/logger.h>
-
 namespace lms{
 namespace math{
 
@@ -392,8 +389,6 @@ public:
      * @return
      */
     polyLine2f getWithDistanceBetweenPoints(const float distance)const {
-        lms::logging::Logger test("math");
-        test.debug("math")<<"pointcount: "<<m_points.size();
         polyLine2f result;
         if(distance <= 0){
             LMS_EXCEPTION("invalid distance given: " + std::to_string(distance));
@@ -403,15 +398,12 @@ public:
         }
         int currentIndex = 1;
         result.points().push_back(m_points[0]);//add first point
-        test.debug("math")<<"entering loop";
         while(true){
-            test.debug("math")<<"currentIndex "<< currentIndex;
             lms::math::vertex2f lastPoint = result.points()[result.points().size()-1];
             lms::math::vertex2f next = m_points[currentIndex];
             //find valid next
             //we increase the point number until we found a point that is further away from the last point then the distance
             while(lastPoint.distance(next) < distance){
-                test.debug("in inner loop");
                 currentIndex++;
                 if(currentIndex >= (int)m_points.size()){
                     break; //end first loop
@@ -424,7 +416,6 @@ public:
             //found valid next
             //add new point
             lms::math::vertex2f diff = next-lastPoint;
-            test.debug("math")<<"lengthSquared: "<<diff.lengthSquared();
             if(diff.lengthSquared() != 0){
                 result.points().push_back(lastPoint+diff.normalize()*distance);
             }else{
@@ -453,7 +444,12 @@ public:
             lms::math::vertex2f top = m_points[i];
             lms::math::vertex2f bot = m_points[i-1];
             diff = top-bot;
-            diff = diff.rotateClockwise90deg().normalize()*distance;
+            float diffDistance = diff.length();
+            if(diffDistance == 0){
+                //TODO this could be solved nicely
+                LMS_EXCEPTION("Points should not be the same, diffDistance == 0");
+            }
+            diff = diff.rotateClockwise90deg()*distance/diffDistance;
             result.points().push_back(bot+diff);
         }
         result.points().push_back(m_points.back()+diff);
