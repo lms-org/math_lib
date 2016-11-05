@@ -388,8 +388,11 @@ public:
      * @param distance
      * @return
      */
-    polyLine2f getWithDistanceBetweenPoints(float distance)const {
+    polyLine2f getWithDistanceBetweenPoints(const float distance)const {
         polyLine2f result;
+        if(distance <= 0){
+            LMS_EXCEPTION("invalid distance given: " + std::to_string(distance));
+        }
         if(m_points.size() == 0){
             return result;
         }
@@ -399,6 +402,7 @@ public:
             lms::math::vertex2f lastPoint = result.points()[result.points().size()-1];
             lms::math::vertex2f next = m_points[currentIndex];
             //find valid next
+            //we increase the point number until we found a point that is further away from the last point then the distance
             while(lastPoint.distance(next) < distance){
                 currentIndex++;
                 if(currentIndex >= (int)m_points.size()){
