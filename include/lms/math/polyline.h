@@ -192,7 +192,7 @@ public:
     }
 
     /**
-     * @brief distance TODO
+     * @brief distance TODO does not give the closest distance, just the first orth distance!
      * @param v
      * @return
      */
@@ -209,11 +209,10 @@ public:
             if(part > 1){
                 tang += m_points[i-1].distance(m_points[i]);
             }else{
-                return;//orth position found
+                tang += m_points[i-1].distance(m_points[i]) * part;
+                return;
             }
         }
-        //no orth position found
-        //TODO
     }
 
     /**
