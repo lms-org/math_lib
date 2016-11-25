@@ -14,6 +14,9 @@ class PointCloud {
     const std::vector<V>& points() const { return m_points; }
     std::vector<V>& points() { return m_points; }
 
+    void clear() { m_points.clear(); }
+    typename std::vector<V>::size_type size() const { return m_points.size(); }
+
    private:
     std::vector<V> m_points;
 };
