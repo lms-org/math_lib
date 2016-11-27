@@ -43,6 +43,8 @@ public:
         return sum;
     }
 
+
+
     void sort(std::function<bool(const VERTEX&,const VERTEX&)> sortF){
         std::sort(points().begin(), points().end(),sortF);
     }
@@ -189,6 +191,24 @@ public:
             }
         }
         return result;
+    }
+
+    /**
+     * @brief Returns the perpendicular(shortest) distance from the line to v.
+     * Line needs to have at least 1 point to get a sensible result. If the line
+     * has no points returns 0.
+     */
+    float perpendicularDistance(const vertex2f &v) const {
+        if (points().size() == 0) {
+            return 0;
+        }
+        float shortest_distance = points().at(0).distance(v);
+        for (std::vector<float>::size_type i = 0; i < points().size() - 1; i++) {
+            float distance =
+                minimum_distance(points().at(i), points().at(i + 1), v);
+            shortest_distance = std::min(shortest_distance, distance);
+        }
+        return shortest_distance;
     }
 
     /**
