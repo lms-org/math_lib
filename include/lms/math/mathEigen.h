@@ -6,6 +6,13 @@
 namespace lms {
 namespace math {
 
+inline lms::math::vertex2f fromEigenf(const Eigen::Vector2f &v){
+    return lms::math::vertex2f(v(0),v(1));
+}
+inline lms::math::vertex2d fromEigend(const Eigen::Vector2d &v){
+    return lms::math::vertex2d(v(0),v(1));
+}
+
 template<int rows, int cols>
 using Matrix = Eigen::Matrix<float, rows, cols>;
 
