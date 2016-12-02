@@ -449,6 +449,9 @@ public:
     }
     /**
      * @brief moveOrthogonal
+     * "distance" is the distance from the orthogonally moved line to
+     * the given. It is not the distance moved. A positive distance gives a line
+     * that is moved orthogonally in negative direction from the given.
      * @param distance
      * @return empty polyLine2f if the transition is not possible
      */
