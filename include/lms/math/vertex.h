@@ -55,7 +55,7 @@ public:
     /**
      * @brief angleBetween
      * @param v
-     * @return value between 0 and PI?
+     * @return value between 0 and PI
      */
     float angleBetween(const vertex2<T> &v) const {
         float value = (*this * v) / length() / v.length();
@@ -73,16 +73,15 @@ public:
     }
 
     /**
-      TODO
      * @brief angleBetweenWithOrientation
      * @param v
-     * @return value between 0 and 2*PI?
+     * @return value between -PI and PI
      */
     float angleBetweenWithOrientation(const vertex2<T> &v) const {
         float orient = x * v.y - y * v.x; //crossproduct
         float angle = angleBetween(v);
         if(orient < 0){
-           angle = angle + M_PI;
+           angle = -angle;
         }
         return angle;
     }

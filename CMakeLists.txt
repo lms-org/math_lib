@@ -40,7 +40,6 @@ add_library(lms_math SHARED ${SOURCES} ${HEADERS})
 
 if(USE_CONAN)
 target_link_libraries(lms_math PRIVATE ${CONAN_LIBS})
-
 message("Compile math_lib testing executable")
 add_executable(math_lib_test ${TESTS})
 target_link_libraries(math_lib_test PRIVATE lms_math ${CONAN_LIBS})
