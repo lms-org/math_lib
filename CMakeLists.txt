@@ -20,6 +20,7 @@ set (HEADERS
     "include/lms/math/math.h"
     "include/lms/math/convert.h"
     "include/lms/math/mathEigen.h"
+    "include/lms/math/point_cloud.h"
 )
 
 set (TESTS
