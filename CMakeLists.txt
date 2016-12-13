@@ -29,6 +29,7 @@ set (TESTS
     "src/test/interpolation.cpp"
     "src/test/convert.cpp"
     "src/test/vertex.cpp"
+    "src/test/pose2d.cpp"
 )
 
 #set compiler flags
@@ -48,4 +49,11 @@ target_link_libraries(math_lib_test PRIVATE lms_math ${CONAN_LIBS})
 add_test(MathLib math_lib_test)
 else()
 target_link_libraries(lms_math PRIVATE lmscore)
+
+#non conan test
+#message("Compile math_lib testing executable")
+#add_executable(math_lib_test ${TESTS})
+#target_link_libraries(math_lib_test PRIVATE lms_math gtest gmock gmock_main)
+#add_test(MathLib math_lib_test)
+
 endif(USE_CONAN)

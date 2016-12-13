@@ -2,6 +2,7 @@
 
 #include <Eigen/Eigen>
 #include <lms/math/interpolation.h>
+#include <iostream>
 
 namespace lms{
 namespace math{
@@ -9,11 +10,11 @@ namespace math{
 struct Pose2D{
     Pose2D():x(0),y(0),phi(0){
     }
-    Pose2D(float x,float y,float phi):x(x),y(y),phi(phi),stamp(0){}
+    Pose2D(float x,float y,float phi):x(x),y(y),phi(phi),timeStamp(0){}
     float x;
     float y;
     float phi;
-    long stamp;
+    double timeStamp;
 };
 
 struct CoordinateSystem2D{
@@ -24,36 +25,35 @@ struct CoordinateSystem2D{
     }
 
     Pose2D transformTo(const Pose2D &pose){
-        //create rotation matrix (passive)
-        Eigen::Matrix3f transRot;
-        transRot(0,0) = cos(phi);
-        transRot(1,0) = sin(phi);
-        transRot(0,1) = -sin(phi);
-        transRot(1,1) = cos(phi);
-        transRot(2,0) = x;
-        transRot(2,0) = y;
-        transRot(2,0) = 1;
-        transRot(0,2) = 0;
-        transRot(1,2) = 0;
+        //we have to manually translate it before as combing rotation and translation matrix does a rotation and afterwards the translation
+        Eigen::Vector2f v;
+        v.x() = pose.x-x;
+        v.y() = pose.y-y;
 
-        //rotate position
-        Eigen::Vector3f v;
-        v.x() = pose.x;
-        v.y() = pose.y;
-        v.z() = 0;
-        v=transRot*v;
+        //create rotation matrix (passive)
+        Eigen::Matrix2f rotMat;
+        rotMat(0,0) = cos(phi);
+        rotMat(0,1) = sin(phi);
+        rotMat(1,0) = -sin(phi);
+        rotMat(1,1) = cos(phi);
+        v = rotMat*v;
+
         Pose2D res;
         res.x = v.x();
         res.y = v.y();
-        //calculate angle TODO not sure if this is right
         res.phi = pose.phi-phi;
+        res.timeStamp = pose.timeStamp;
         return res;
     }
 };
 class Pose2DHistory{
     Pose2D m_currentPose;
-    std::vector<Pose2D> poses;
+    std::vector<Pose2D> m_poses;
 public:
+    std::vector<Pose2D> poses(){
+        return m_poses;
+    }
+
     Pose2DHistory():posesMaxSize(-1){
 
     }
@@ -66,14 +66,14 @@ public:
      * @param dphi drehung des Koordinatensystems
      * @param time (can be abused as id) in ms
      */
-    void addPose(float x, float y, float phi, long time){
+    void addPose(float x, float y, float phi, double timeStamp){
         m_currentPose.x = x;
         m_currentPose.y = y;
         m_currentPose.phi = phi;
-        m_currentPose.stamp = time;
-        poses.push_back(m_currentPose);
-        if(posesMaxSize != -1 && (int)poses.size() > posesMaxSize){
-            poses.erase(poses.begin()+1);
+        m_currentPose.timeStamp = timeStamp;
+        m_poses.push_back(m_currentPose);
+        if(posesMaxSize > 0 && (int)m_poses.size() > posesMaxSize){
+            m_poses.erase(m_poses.begin()+1);
             //TODO remove some points in between
         }
     }
@@ -83,15 +83,16 @@ public:
      * @param pose
      * @return false if the time is before the pose or if the time is after the last pose
      */
-    bool getPose(const long time,Pose2D &pose) const{
-        if(poses.size() == 0 || poses[0].stamp < time)
+    bool getPose(const double time,Pose2D &pose) const{
+        if(m_poses.size() == 0 || time < m_poses[0].timeStamp)
             return false;
-        for(std::size_t i = 1; i < poses.size(); i++){
-            if(poses[i].stamp >= time){
+        for(std::size_t i = 1; i < m_poses.size(); i++){
+            if(m_poses[i].timeStamp >= time){
                 //long should fit into double
-                pose.x = lms::math::linearInterpolation<double>(poses[i].stamp,poses[i].x,poses[i-1].stamp,poses[i-1].x,time);
-                pose.y = lms::math::linearInterpolation<double>(poses[i].stamp,poses[i].y,poses[i-1].stamp,poses[i-1].y,time);
-                pose.phi = lms::math::linearInterpolation<double>(poses[i].stamp,poses[i].phi,poses[i-1].stamp,poses[i-1].phi,time);
+                pose.x = lms::math::linearInterpolation<double>(m_poses[i].timeStamp,m_poses[i].x,m_poses[i-1].timeStamp,m_poses[i-1].x,time);
+                pose.y = lms::math::linearInterpolation<double>(m_poses[i].timeStamp,m_poses[i].y,m_poses[i-1].timeStamp,m_poses[i-1].y,time);
+                pose.phi = lms::math::linearInterpolation<double>(m_poses[i].timeStamp,m_poses[i].phi,m_poses[i-1].timeStamp,m_poses[i-1].phi,time);
+                pose.timeStamp = time;
                 return true;
             }
         }
@@ -117,7 +118,7 @@ public:
         pose.x = pose2.x -pose1.x;
         pose.y = pose2.y -pose1.y;
         pose.phi = pose2.phi -pose1.phi;
-        pose.stamp = pose2.stamp -pose1.stamp;
+        pose.timeStamp = pose2.timeStamp -pose1.timeStamp;
         return true;
     }
     /**
@@ -133,7 +134,7 @@ public:
         pose.x = currentPose().x -pose1.x;
         pose.y = currentPose().y -pose1.y;
         pose.phi = currentPose().phi -pose1.phi;
-        pose.stamp = currentPose().stamp -pose1.stamp;
+        pose.timeStamp = currentPose().timeStamp -pose1.timeStamp;
         return true;
     }
 };
