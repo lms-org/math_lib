@@ -5,6 +5,7 @@
 
 namespace lms{
 namespace math{
+//TODO Test cases, I dont know if this works
 struct Pose2D{
     Pose2D():x(0),y(0),phi(0){
     }
