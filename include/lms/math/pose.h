@@ -19,6 +19,8 @@ struct CoordinateSystem2D{
     float x,y,phi;
     CoordinateSystem2D():x(0),y(0),phi(0){
     }
+    CoordinateSystem2D(const Pose2D &p):x(p.x),y(p.y),phi(p.phi){
+    }
 
     Pose2D transformTo(const Pose2D &pose){
         //create rotation matrix (passive)
@@ -80,7 +82,7 @@ public:
      * @param pose
      * @return false if the time is before the pose or if the time is after the last pose
      */
-    bool getPose(const long time,Pose2D &pose){
+    bool getPose(const long time,Pose2D &pose) const{
         if(poses.size() == 0 || poses[0].stamp < time)
             return false;
         for(std::size_t i = 1; i < poses.size(); i++){
@@ -95,7 +97,7 @@ public:
         return false;
     }
 
-    Pose2D currentPose(){
+    Pose2D currentPose() const{
         return m_currentPose;
     }
     /**
