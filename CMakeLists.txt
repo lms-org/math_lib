@@ -30,6 +30,7 @@ set (TESTS
     "src/test/convert.cpp"
     "src/test/vertex.cpp"
     "src/test/pose2d.cpp"
+    "src/test/polyline2f.cpp"
 )
 
 #set compiler flags

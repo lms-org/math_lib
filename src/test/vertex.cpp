@@ -112,6 +112,13 @@ TEST(Vertex2, rotate) {
     EXPECT_EQ(vertex2i(0, 0), vertex2i(0, 0).rotateAntiClockwise90deg());
 }
 
+TEST(VERTEX2, minimum_distance){
+    float onTheSegment,minDistance;
+    minDistance = minimum_distance(lms::math::vertex2f(0,0),lms::math::vertex2f(1,0),lms::math::vertex2f(0.5,0.5),onTheSegment);
+    EXPECT_FLOAT_EQ(0.5,minDistance);
+    EXPECT_FLOAT_EQ(0.5,onTheSegment);
+}
+
 // As one can see if we go clockwise with points on the border of
 // the triangle we get false results. Ergo always go anticlockwise.
 TEST(pointInTriangle, ClockwiseOnBorder) {

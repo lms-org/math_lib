@@ -194,11 +194,11 @@ public:
     }
 
     /**
-     * @brief Returns the perpendicular(shortest) distance from the line to v.
+     * @brief Returns the shortest distance from the line to v.
      * Line needs to have at least 1 point to get a sensible result. If the line
      * has no points returns 0.
      */
-    float perpendicularDistance(const vertex2f &v) const {
+    float shortestDistance(const vertex2f &v) const {
         if (points().size() == 0) {
             return 0;
         }
@@ -212,11 +212,11 @@ public:
     }
 
     /**
-     * @brief distance TODO does not give the closest distance, just the first orth distance!
+     * @brief distance does not give the closest distance, just the first orth distance with sign!
      * @param v
      * @return
      */
-    void distance(const lms::math::vertex2f &v, float &orth, float &tang) const{
+    void firstOrthogonalDistance(const lms::math::vertex2f &v, float &orth, float &tang) const{
         orth = 0;
         tang = 0;
         //error handling? size == 0?
@@ -225,7 +225,11 @@ public:
         }
         for(uint i = 1; i < m_points.size(); i++){
             float part;
-            orth = minimum_distance(v,m_points[i-1],m_points[i],part);
+            orth = minimum_distance(m_points[i-1],m_points[i],v,part);
+            if(!(m_points[i]-m_points[i-1]).left(v)){
+                orth = -orth;
+            }
+
             if(part > 1){
                 tang += m_points[i-1].distance(m_points[i]);
             }else{
