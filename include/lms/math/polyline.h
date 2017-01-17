@@ -216,7 +216,7 @@ public:
      * @param v
      * @return
      */
-    void distance(const lms::math::vertex2f &v, float &orth, float &tang){
+    void distance(const lms::math::vertex2f &v, float &orth, float &tang) const{
         orth = 0;
         tang = 0;
         //error handling? size == 0?

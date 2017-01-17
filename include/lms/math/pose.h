@@ -3,11 +3,13 @@
 #include <Eigen/Eigen>
 #include <lms/math/interpolation.h>
 #include <iostream>
+#include <lms/serializable.h>
+#include <street_environment/bounding_box.h>
+#include <cereal/types/vector.hpp>
 
 namespace lms{
 namespace math{
-//TODO Test cases, I dont know if this works
-struct Pose2D{
+struct Pose2D: public lms::Serializable{
     Pose2D():x(0),y(0),phi(0){
     }
     Pose2D(float x,float y,float phi):x(x),y(y),phi(phi),timeStamp(0){}
@@ -15,9 +17,17 @@ struct Pose2D{
     float y;
     float phi;
     double timeStamp;
+
+    /////////////////////////////// Serialization //////////////////////////////
+    CEREAL_SERIALIZATION()
+
+    template <class Archive>
+    void serialize(Archive& archive) {
+        archive(x,y,phi,timeStamp);
+    }
 };
 
-struct CoordinateSystem2D{
+struct CoordinateSystem2D: public lms::Serializable{
     float x,y,phi;
     CoordinateSystem2D():x(0),y(0),phi(0){
     }
@@ -45,8 +55,15 @@ struct CoordinateSystem2D{
         res.timeStamp = pose.timeStamp;
         return res;
     }
+    /////////////////////////////// Serialization //////////////////////////////
+    CEREAL_SERIALIZATION()
+
+    template <class Archive>
+    void serialize(Archive& archive) {
+        archive(x,y,phi);
+    }
 };
-class Pose2DHistory{
+class Pose2DHistory : public lms::Serializable{
     Pose2D m_currentPose;
     std::vector<Pose2D> m_poses;
 public:
@@ -136,6 +153,14 @@ public:
         pose.phi = currentPose().phi -pose1.phi;
         pose.timeStamp = currentPose().timeStamp -pose1.timeStamp;
         return true;
+    }
+
+    /////////////////////////////// Serialization //////////////////////////////
+    CEREAL_SERIALIZATION()
+
+    template <class Archive>
+    void serialize(Archive& archive) {
+        archive(m_currentPose,m_poses);
     }
 };
 
