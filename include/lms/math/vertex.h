@@ -251,7 +251,7 @@ typedef vertex2<double> vertex2d;
  * @param onTheSegment between 0 for first point, 1 for second point
  * @return
  */
-inline float minimum_distance(vertex2f v, vertex2f w, vertex2f p, float &onTheSegment) {
+inline float minimum_distance(vertex2f v, vertex2f w, vertex2f p, float &onTheSegment,bool orthOnSeg = true) {
     // Return minimum distance between line segment vw and point p
     const float l2 = v.distanceSquared(w);  // i.e. |w-v|^2 -  avoid a sqrt
     if (l2 == 0.0) return p.distance(v);   // v == w case
@@ -259,8 +259,10 @@ inline float minimum_distance(vertex2f v, vertex2f w, vertex2f p, float &onTheSe
     // We find projection of point p onto the line.
     // It falls where t = [(p-v) . (w-v)] / |w-v|^2
     onTheSegment = (p - v)*(w - v) / l2;
-    if (onTheSegment < 0.0) return p.distance(v);       // Beyond the 'v' end of the segment
-    else if (onTheSegment > 1.0) return p.distance(w);  // Beyond the 'w' end of the segment
+    if(orthOnSeg){
+        if (onTheSegment < 0.0) return p.distance(v);       // Beyond the 'v' end of the segment
+        else if (onTheSegment > 1.0) return p.distance(w);  // Beyond the 'w' end of the segment
+    }
     const vertex2f projection = v + (w - v)*onTheSegment;  // Projection falls on the segment
     return p.distance(projection);
 }

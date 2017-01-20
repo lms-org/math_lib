@@ -225,8 +225,8 @@ public:
         }
         for(uint i = 1; i < m_points.size(); i++){
             float part;
-            orth = minimum_distance(m_points[i-1],m_points[i],v,part);
-            if(!(m_points[i]-m_points[i-1]).left(v)){
+            orth = minimum_distance(m_points[i-1],m_points[i],v,part,false);
+            if(lms::math::vertex2f::side(m_points[i-1],m_points[i],v) < 0){
                 orth = -orth;
             }
 
