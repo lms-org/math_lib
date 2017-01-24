@@ -230,7 +230,7 @@ public:
                 orth = -orth;
             }
 
-            if(part > 1){
+            if(part > 1 && i != ((int)m_points.size()) -1){
                 tang += m_points[i-1].distance(m_points[i]);
             }else{
                 tang += m_points[i-1].distance(m_points[i]) * part;
