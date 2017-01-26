@@ -223,7 +223,7 @@ public:
         if(m_points.size() == 1){
             tang = (m_points[0]-v).length();
         }
-        for(uint i = 1; i < m_points.size(); i++){
+        for(int i = 1; i < m_points.size(); i++){
             float part;
             orth = minimum_distance(m_points[i-1],m_points[i],v,part,false);
             if(lms::math::vertex2f::side(m_points[i-1],m_points[i],v) < 0){
