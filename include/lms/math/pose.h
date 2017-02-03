@@ -37,8 +37,8 @@ struct CoordinateSystem2D: public lms::Serializable{
     Pose2D transformTo(const Pose2D &pose){
         //we have to manually translate it before as combing rotation and translation matrix does a rotation and afterwards the translation
         Eigen::Vector2f v;
-        v.x() = pose.x-x;
-        v.y() = pose.y-y;
+        v.x() = x-pose.x;
+        v.y() = y-pose.y;
 
         //create rotation matrix (passive)
         Eigen::Matrix2f rotMat;
@@ -51,7 +51,7 @@ struct CoordinateSystem2D: public lms::Serializable{
         Pose2D res;
         res.x = v.x();
         res.y = v.y();
-        res.phi = pose.phi-phi;
+        res.phi = phi-pose.phi;
         res.timeStamp = pose.timeStamp;
         return res;
     }
@@ -110,6 +110,10 @@ public:
                 pose.y = lms::math::linearInterpolation<double>(m_poses[i].timeStamp,m_poses[i].y,m_poses[i-1].timeStamp,m_poses[i-1].y,time);
                 pose.phi = lms::math::linearInterpolation<double>(m_poses[i].timeStamp,m_poses[i].phi,m_poses[i-1].timeStamp,m_poses[i-1].phi,time);
                 pose.timeStamp = time;
+                if(std::isnan(pose.x) || std::isnan(pose.y)  || std::isnan(pose.phi) ){
+                    std::cerr<<"pose is nan"<<pose.x << " "<<pose.y<<" "<<pose.phi;
+                    return false;
+                }
                 return true;
             }
         }
